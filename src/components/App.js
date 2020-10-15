@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 import {BrowserRouter as Router, Route, Switch} from "react-router-dom";
 import Home from "./Home";
-import Footer from "./Footer";
-import Contact from "./Contact";
-import Header from "./Header";
+import Footer from "./squelette/Footer";
+import ContactPage from "./contact/ContactPage";
+import Header from "./squelette/Header";
 
 function App() {
 
@@ -17,7 +17,7 @@ function App() {
                 <div>
                     <Switch>
                         <Route exact path="/" component={Home}/>
-                        <Route path="/contact" component={Contact}/>
+                        <Route path="/contact" component={ContactPage}/>
                     </Switch>
                 </div>
                 <Footer/>

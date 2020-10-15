@@ -4,9 +4,9 @@ import {Link} from "react-router-dom";
 function BoutonSeConnecter() {
     return (
         <>
-            <div className="row">
+            <span className="btn btn-warning px-4 ml-2">
                 <Link className="text-dark" to="/connexion">Se Connecter</Link>
-            </div>
+            </span>
         </>
     )
 }

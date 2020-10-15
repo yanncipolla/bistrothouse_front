@@ -2,6 +2,12 @@
 /*  border : solid 1px red*/
 /*}*/
 
+
+/*HomePage*/
+.a-propos{
+  min-width: 450px;
+}
+
 body {
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
@@ -78,19 +84,19 @@ code {
  background-size: cover;
 }
 
+/*TODO : A supp*/
+/*.my-4{*/
+/*  background-color: #fcbe06;*/
+/*  height: 5px;*/
+/*  width: 100px*/
+/*}*/
 
-.my-4{
-  background-color: #fcbe06;
-  height: 5px;
-  width: 100px
-}
-
-/*Zone adresse + map*/
-.my-2{
+/*TODO : A supp*/
+.hr-Bar{
   background-color: #fcbe06;
   height: 4px;
   width: 100px;
-  margin-right: 500px;
+  margin-left:0;
 }
 
 /*Card*/
