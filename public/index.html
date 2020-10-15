@@ -1,43 +1,72 @@
 <!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <link rel="icon" href="%PUBLIC_URL%/favicon.ico" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="theme-color" content="#000000" />
-    <meta
-      name="description"
-      content="Web site created using create-react-app"
-    />
-    <link rel="apple-touch-icon" href="%PUBLIC_URL%/logo192.png" />
-    <!--
-      manifest.json provides metadata used when your web app is installed on a
-      user's mobile device or desktop. See https://developers.google.com/web/fundamentals/web-app-manifest/
-    -->
-    <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
-    <!--
-      Notice the use of %PUBLIC_URL% in the tags above.
-      It will be replaced with the URL of the `public` folder during the build.
-      Only files inside the `public` folder can be referenced from the HTML.
+<html lang="fr">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="theme-color" content="#000000"/>
+  <title>Bistrot House</title> <!-- Moins de 65 ou 55 caracteres-->
+  <link rel="icon" href="%PUBLIC_URL%/favicon.ico"/>
 
-      Unlike "/favicon.ico" or "favicon.ico", "%PUBLIC_URL%/favicon.ico" will
-      work correctly both with client-side routing and a non-root public URL.
-      Learn how to configure a non-root public URL by running `npm run build`.
-    -->
-    <title>React App</title>
-  </head>
-  <body>
-    <noscript>You need to enable JavaScript to run this app.</noscript>
-    <div id="root"></div>
-    <!--
-      This HTML file is a template.
-      If you open it directly in the browser, you will see an empty page.
+  <!-- Utilisé pour l'indexation dans les moteurs de recherche -->
+  <meta name="keywords" content="restauration, fast, food, piiza, burger, lyon"/>
 
-      You can add webfonts, meta tags, or analytics to this file.
-      The build step will place the bundled scripts into the <body> tag.
+  <!-- Comportement moteur de recherche -->
+  <meta name="robots" content="noindex"/> <!-- index/noindex : indexer la page ou ne pas l'indexer -->
+  <meta name="robots" content="nofollow"/> <!-- follow/nofollow : indexer les pages que les href de cette page indiquent ou ne pas les indexer -->
 
-      To begin the development, run `npm start` or `yarn start`.
-      To create a production bundle, use `npm run build` or `yarn build`.
-    -->
-  </body>
+  <!-- Utilisé pour l'affichage du site dans les moteurs de recherche
+  et la mini description parfois affichée en dessous de la saisie d'un lien dans certaines appli (ex : sms, discord...) -->
+  <meta name="description" content="Concept de cuisine ouverte original, burgers et pizzas préparés à la commande, frites fraîches et et desserts maison." /> <!-- Moins de 120 ou 160 caracteres-->
+  <meta name="image" content="%PUBLIC_URL%/logo_img_393x155.png"/>
+
+  <!--    Ajouter une icône pour iPhone/iPod Touch/iPad-->
+  <link rel="apple-touch-icon" href="%PUBLIC_URL%/apple-touch-icon.png"/>
+
+  <!-- Google / Search Engine Tags -->
+  <meta itemprop="name" content="Bistrot House">
+  <meta itemprop="description" content="Concept de cuisine ouverte original, burgers et pizzas préparés à la commande, frites fraîches et et desserts maison."> <!-- Moins de 200 caracteres-->
+  <meta itemprop="image" content="%PUBLIC_URL%/logo_img_393x155.png"> <!--at least 160x90 pixels and at most 1920x1080 pixels-->
+
+  <!-- Facebook Meta Tags -->
+  <meta property="og:url" content="%PUBLIC_URL%">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Bistrot House">
+  <meta property="og:description" content="Concept de cuisine ouverte original, burgers et pizzas préparés à la commande, frites fraîches et et desserts maison.">
+  <meta property="og:image" content="%PUBLIC_URL%/logo_img_393x155.png">  <!-- 1200 x 630 recommandé -->
+
+  <!-- Twitter Meta Tags -->
+  <meta name="twitter:card" content="summary_large_image"> <!-- Type de card, ne pas toucher -->
+  <meta name="twitter:title" content="Bistrot House">
+  <meta name="twitter:description" content="Concept de cuisine ouverte original, burgers et pizzas préparés à la commande, frites fraîches et et desserts maison."> <!-- Moins de 200 caracteres-->
+  <meta name="twitter:image" content="%PUBLIC_URL%/apple-touch-icon.png"> <!-- 1Mo et 120x120 max -->
+
+  <!--
+    manifest.json provides metadata used when your web app is installed on a
+    user's mobile device or desktop. See https://developers.google.com/web/fundamentals/web-app-manifest/
+  -->
+  <link rel="manifest" href="%PUBLIC_URL%/manifest.json"/>
+  <!--
+    Notice the use of %PUBLIC_URL% in the tags above.
+    It will be replaced with the URL of the `public` folder during the build.
+    Only files inside the `public` folder can be referenced from the HTML.
+
+    Unlike "/favicon.ico" or "favicon.ico", "%PUBLIC_URL%/favicon.ico" will
+    work correctly both with client-side routing and a non-root public URL.
+    Learn how to configure a non-root public URL by running `npm run build`.
+  -->
+</head>
+<body>
+<noscript>You need to enable JavaScript to run this app.</noscript>
+<div id="root"></div>
+<!--
+  This HTML file is a template.
+  If you open it directly in the browser, you will see an empty page.
+
+  You can add webfonts, meta tags, or analytics to this file.
+  The build step will place the bundled scripts into the <body> tag.
+
+  To begin the development, run `npm start` or `yarn start`.
+  To create a production bundle, use `npm run build` or `yarn build`.
+-->
+</body>
 </html>

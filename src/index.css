@@ -1,3 +1,7 @@
+/**{*/
+/*  border : solid 1px red*/
+/*}*/
+
 body {
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
@@ -7,7 +11,176 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
+h1{
+  font-family: 'Just Another Hand', cursive;
+}
+
+h2{
+  font-family: 'Just Another Hand', cursive;
+}
+
+.container {
+  flex-direction: row;
+
+}
+
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+/*Nav bar*/
+#navbarNav{
+  padding-left: 13%;
+
+}
+
+/*Zone Picto CSS*/
+#pictofond{
+  background-image: url('/images/home/fond.jpg');
+  background-size: cover;
+}
+
+#nomPicto {
+  /*text-align: center;*/
+  padding-top: 10px;
+  font-size: 20px;
+  color: white;
+}
+
+.miniproduit{
+  width: 50px;
+  height: auto;
+}
+
+.modifProduitImg{
+  width: 208px;
+}
+
+/*ard Pizza, Burger... responsive*/
+
+/*@media (max-width: 767.98px){*/
+/*.position-card{*/
+/*  display: flex;*/
+/*  flex-direction: column;*/
+/*  max-width: 60%;*/
+/*  }*/
+/*}*/
+
+
+/*Zone Call to action (Jumbotron) CSS*/
+.jumbotron{
+  background-image: url('/images/home/jumbotron_fond.jpg');
+  margin-top: 50px;
+  padding-top:50px ;
+  text-align: center;
+ color: white;
+ background-size: cover;
+}
+
+
+.my-4{
+  background-color: #fcbe06;
+  height: 5px;
+  width: 100px
+}
+
+/*Zone adresse + map*/
+.my-2{
+  background-color: #fcbe06;
+  height: 4px;
+  width: 100px;
+  margin-right: 500px;
+}
+
+/*Card*/
+.card-img-top{
+  max-width: 60%;
+  height: auto;
+  margin: 0 auto;
+}
+
+.text-muted{
+  text-align: center;
+  font-size: 30px;
+}
+
+.card-text{
+  text-align: center;
+ margin-bottom: 0px;
+}
+
+.card-title{
+  font-family: 'Just Another Hand', cursive;
+  text-align: center;
+}
+
+.btn {
+  font-family: 'Just Another Hand', cursive;
+  color: white;
+}
+
+/*Footer*/
+html,
+body {
+  height: 100%;
+}
+
+#page-content {
+  flex: 1 0 auto;
+}
+
+#sticky-footer {
+  font-family: 'Just Another Hand', cursive;
+}
+
+.d-block{
+  width: 50%;
+}
+
+/*Panier*/
+.panier{
+  text-align: center;
+}
+
+/*Page Validation commande*/
+.jumbotron-validation{
+  background-image: url('/images/home/jumbotron_fond.jpg');
+  text-align: center;
+  padding-top: 100px;
+  padding-bottom: 100px;
+  color: #e0a800;
+  background-size: cover;
+}
+
+
+/*bouton historique des commandes*/
+#bouton-historique{
+   padding-left: 35%;
+}
+
+.ajustNav4XsScreen{
+  min-height : 88px;
+}
+
+.cusmtomCard{
+  min-width: 288px!important;
+}
+
+@media only screen and (max-width : 992px) {
+  .navbarSmallCustom{
+    justify-content: left!important;
+  }
+}
+
+/*@media only screen and (max-width : 991px) {*/
+/*  .navbarCustom{*/
+/*    align-items: flex-start;*/
+/*    margin-top: 25px;*/
+/*  }*/
+/*}*/
+/*@media only screen and (min-width : 992px) {*/
+/*  .navbarCustom{*/
+/*    align-items: center ;*/
+/*  }*/
+/*}*/

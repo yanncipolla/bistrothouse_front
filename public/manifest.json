@@ -1,21 +1,21 @@
 {
-  "short_name": "React App",
-  "name": "Create React App Sample",
+  "short_name": "Bistrot House",
+  "name": "Bistrot House",
   "icons": [
     {
       "src": "favicon.ico",
-      "sizes": "64x64 32x32 24x24 16x16",
+      "sizes": "64x127",
       "type": "image/x-icon"
     },
     {
-      "src": "logo192.png",
+      "src": "logo_img_393x155.png",
       "type": "image/png",
-      "sizes": "192x192"
+      "sizes": "393x155"
     },
     {
-      "src": "logo512.png",
+      "src": "apple-touch-icon.png",
       "type": "image/png",
-      "sizes": "512x512"
+      "sizes": "114x114"
     }
   ],
   "start_url": ".",
