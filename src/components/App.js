@@ -5,11 +5,21 @@ import Footer from "./squelette/Footer";
 import ContactPage from "./contact/ContactPage";
 import Header from "./squelette/Header";
 import PageProduit from "./produits/PageProduit";
+import PageConnexion from "./utilisateur/PageConnexion";
+import {checkTokenValidity} from "../services/authentificationService";
 
 function App() {
 
-    // const [loginState, setLoginState] = useState(checkTokenValidity());
-    const [loginState, setLoginState] = useState(false);
+    // Permet de vérifier si un utilisateur est connecté avec un token valide
+    const [loginState, setLoginState] = useState(checkTokenValidity());
+
+    function handleLoginState(etat) {
+        setLoginState(etat)
+        // if (loginState && !etat) {
+        //     deconnexion()
+        //     alert('Session expirée, veuillez vous reconnecter')
+        // }
+    }
 
     return (
         <>
@@ -25,6 +35,8 @@ function App() {
                         <Route path='/dessert' render={(props) => <PageProduit {...props} categorieProduit={'Dessert'} />} />
                         <Route path='/boisson' render={(props) => <PageProduit {...props} categorieProduit={'Boisson'} />} />
                         <Route path='/tapas' render={(props) => <PageProduit {...props} categorieProduit={'Tapas'} />} />
+                        <Route path='/tapas' render={(props) => <PageProduit {...props} categorieProduit={'Tapas'} />} />
+                        <Route path="/connexion" render={(props) => <PageConnexion {...props} handleLoginState={(etat) => handleLoginState(etat)} />} />
                     </Switch>
                 </div>
                 <Footer/>

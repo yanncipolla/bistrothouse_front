@@ -14,16 +14,14 @@ function Header(props) {
 
                 {/*Bouton se connecter/déconnexion*/}
                 <div className="col-auto d-flex">
-                    {/*explication de la ligne ci-dessous :*/}
-                    {/*props.loginState && <BoutonUtilisateurConnecte loginState={props.loginState}/>*/}
-                    {/*Si auth.loginState est vrai, alors envoie ce qu'il y a apres le &&, si non renvoie false*/}
                     <div className="row my-3">
                         <div className="col d-flex align-items-center">
                             <div className="row my-3">
                                 {props.loginState ?
                                     <BoutonUtilisateurConnecte loginState={props.loginState}
                                                                handleLoginState={props.handleLoginState}/> :
-                                    <BoutonSeConnecter/>}
+                                    <BoutonSeConnecter/>
+                                }
                             </div>
                         </div>
                     </div>
