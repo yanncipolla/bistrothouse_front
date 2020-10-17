@@ -99,7 +99,7 @@ function PageConnexion(props) {
                                 {/*TODO YC : Gérer la perte de mot de passe*/}
                             </div>
 
-                            <div className="col mt-4">
+                            <div className="col-md mt-4">
                                 <img src="/images/utilisateur/connexion-burger.jpg" className="d-block w-100" alt="..."/>
                             </div>
                         </div>
