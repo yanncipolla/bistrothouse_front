@@ -8,7 +8,7 @@ function InfosContact() {
 
             <h5 className="">Adresse</h5>
             <hr className="hr-Bar mt-1"/>
-            <p>4 rue Ravier, 69007 Lyon </p>
+            <p>26 Boulevard Jules Favre, 69006 Lyon </p>
 
             <h5>Contact</h5>
             <hr className="hr-Bar mt-1"/>

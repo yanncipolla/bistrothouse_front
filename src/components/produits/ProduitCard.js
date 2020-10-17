@@ -9,7 +9,7 @@ const ProduitCard = (props) => {
             <div className="col-4 cusmtomCard px-2">
 
                 <div className="card my-3 cusmtomCard">
-                    <img className="card-img-top" src={`${process.env.REACT_APP_SYMFONY_APP_URL}/Images/Produits/${props.photo}`} alt="Card cap"/>
+                    <img className="card-img-top" src={`${process.env.REACT_APP_SYMFONY_APP_URL}/images/produits/${props.photo}`} alt="Card cap"/>
                     <div className="card-body">
                         <div className="shadow p-3 mb-5 bg-white rounded">
                             <h5 className="card-title">{props.nom}</h5>
@@ -23,7 +23,7 @@ const ProduitCard = (props) => {
                                 <button type="button" className="btn btn-warning btn-block" data-toggle="modal" data-target="#modal"
                                         onClick={()=> {
                                             let qte = parseInt(document.getElementById('qteId' + props.id).value)
-                                            ajouterProduitAuPanier(props.id, props.description, props.photo, props.prix, qte)
+                                            ajouterProduitAuPanier(props.id, props.nom, props.photo, props.prix, qte)
                                         }
                                     }
                                 >

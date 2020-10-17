@@ -6,6 +6,7 @@ export function checkTokenValidity(){
     if ((actualDate - dateToken) < TOKEN_TTL && window.localStorage.getItem('useremail')){
         return true
     } else {
+        deconnexion()
         return false
     }
 }

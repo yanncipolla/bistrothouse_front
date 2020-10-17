@@ -9,6 +9,7 @@ import PageConnexion from "./utilisateur/PageConnexion";
 import {checkTokenValidity} from "../services/authentificationService";
 import PageIntrouvable from "./PageIntrouvable";
 import Modele from "./Modele";
+import PagePanier from "./panier/PagePanier";
 
 function App() {
 
@@ -38,6 +39,7 @@ function App() {
                         <Route path='/boisson' render={(props) => <PageProduit {...props} categorieProduit={'Boisson'} />} />
                         <Route path='/tapas' render={(props) => <PageProduit {...props} categorieProduit={'Tapas'} />} />
                         <Route path='/tapas' render={(props) => <PageProduit {...props} categorieProduit={'Tapas'} />} />
+                        <Route path="/panier" render={(props) => <PagePanier {...props} loginState={loginState} />} />
                         <Route path="/connexion" render={(props) => <PageConnexion {...props} handleLoginState={(etat) => handleLoginState(etat)} />} />
 
                         <Route path="/test" component={Modele}/>
