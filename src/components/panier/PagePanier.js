@@ -1,12 +1,27 @@
-import React from "react";
-// import {checkTokenValidity} from "../../services/authentificationService";
+import React, {useEffect, useState} from "react";
 import {useHistory} from "react-router-dom";
 import Panier from "./Panier";
-import {supprimerPanier} from "../../services/panierService";
+import {chargerPanier, chargerTotalPanier, supprimerPanier} from "../../services/panierService";
+import Spinner from "../utils/Spinner";
 
 function PagePanier(props) {
 
     const history = useHistory();
+
+    const [panier, setPanier] = useState([]);
+    const [totalPanier, setTotalPanier] = useState([]);
+    // const [isLoaded, setIsLoaded] = useState(false);
+
+    useEffect(()=>{
+        setPanier(chargerPanier())
+        setTotalPanier(chargerTotalPanier())
+        console.log("panier",chargerTotalPanier())
+        // setIsLoaded(true)
+    },[])
+
+    // ************************************
+    // ********* Rendu de la page *********
+    // ************************************
 
     if (window.localStorage.getItem('panier') === null || window.localStorage.getItem('panier') === "{}"){
         return (
@@ -37,9 +52,10 @@ function PagePanier(props) {
                     </div>
                 </div>
                 {/* <!-- Fin carousel --> */}
+
                 <div className="container">
 
-                    <Panier/>
+                    <Panier panier={panier} totalPanier={totalPanier}/>
 
                     {/*****Bouton vider le panier*/}
                     <div className="row">

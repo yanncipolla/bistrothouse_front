@@ -29,7 +29,13 @@ const ProduitCard = (props) => {
                             </div>
                             <div className="col-auto px-0 mx-0">
                                 <input type="number" className="form-control input-number"
-                                       onChange={(e) => setQte(parseInt(e.target.value))}
+                                       onChange={(e) => {
+                                           if (e.target.value == 0){
+                                               e.target.value = "1"
+                                           } else {
+                                               setQte(parseInt(e.target.value))
+                                           }
+                                       }}
                                        value={qte} />
                             </div>
                         </div>
