@@ -1,8 +1,10 @@
-import React from "react";
+import React, {useState} from "react";
 import ModalProduit from "./ModalProduit";
 import {ajouterProduitAuPanier} from "../../services/panierService";
 
 const ProduitCard = (props) => {
+
+    const [qte, setQte] = useState(1);
 
     return (
         <>
@@ -21,17 +23,14 @@ const ProduitCard = (props) => {
                         <div className="row">
                             <div className="col px-0 ml-0 mr-1">
                                 <button type="button" className="btn btn-warning btn-block" data-toggle="modal" data-target="#modal"
-                                        onClick={()=> {
-                                            let qte = parseInt(document.getElementById('qteId' + props.id).value)
-                                            ajouterProduitAuPanier(props.id, props.nom, props.photo, props.prix, qte)
-                                        }
-                                    }
-                                >
+                                        onClick={()=> (ajouterProduitAuPanier(props.id, props.nom, props.photo, props.prix, qte))}>
                                     Ajouter au panier
                                 </button>
                             </div>
                             <div className="col-auto px-0 mx-0">
-                                <input type="number" className="form-control input-number" defaultValue="1" id={"qteId" + props.id} />
+                                <input type="number" className="form-control input-number"
+                                       onChange={(e) => setQte(parseInt(e.target.value))}
+                                       value={qte} />
                             </div>
                         </div>
 
