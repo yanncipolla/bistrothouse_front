@@ -1,40 +1,63 @@
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import {useForm} from "react-hook-form";
 import {useHistory} from "react-router-dom"
 import {postLogin} from "../../services/apiService";
 import Spinner from "../utils/Spinner";
-import Erreur from "../utils/Erreur";
+import ChampInputEmail from "../utils/formulaire/champInputEmail";
+import ChampInputPassword from "../utils/formulaire/champInputPassword";
+import Carousselle from "../utils/Carousselle";
+import Alert from "../utils/Alert";
 
 function PageConnexion(props) {
-    const {handleSubmit, register, errors} = useForm();
-    const [isLoaded, setIsLoaded] = useState(true);
-    const [error, setError] = useState(null);
 
     const history = useHistory();
 
-    const onSubmit = values => {
+    const {handleSubmit, register, errors} = useForm();
+    const [isLoaded, setIsLoaded] = useState(true);
+    const [error, setError] = useState(null);
+    const [erreurMsg, setErreurMsg] = useState(null);
+    const [valeursForm, setValeursForm] = useState({
+        'email': "",
+        'password': ""
+    });
+
+    function handleChange(e) {
+        const name = e.target.name
+        const value = e.target.value
+        setValeursForm((valeursForm) => (
+                {...valeursForm, [name]: value}
+            )
+        )
+    }
+
+    function onSubmit() {
         setIsLoaded(false)
-        postLogin(values.email, values.password)
+        postLogin(valeursForm.email, valeursForm.password)
             .then(() => {
                 props.handleLoginState(true)
                 history.push("/"); //redirection homepage
             })
-            .catch((e) => setError(e))
-            .finally(()=>setIsLoaded(true))
+            .catch((err) => {
+                // TODO YC : j'aurais bien aimé vérifier que j'ai un objet reponse dans l'objet erreur et non pas le déduire à partir du message de l'erreur,
+                //  car dans le cas ou l'API est down, il n'y a pas de réponse.
+                //  J'ai testé avec les lignes commentés suivantes mais soit le test ne foncitonne pas, soit ca plante a cause d'un undefined
+                // if (err.response !== null){
+                // if (err.response !== undefined){
+                // if (err.hasOwnProperty('response')){
+                if (err.message !== "Network Error" && err.response.data.hasOwnProperty('message')) {
+                    setErreurMsg(err.response.status + " : " + err.response.data.message)
+                } else {
+                    setErreurMsg(err.message)
+                }
+            })
+            .finally(() => setIsLoaded(true))
     }
 
-    if (error){
-        if (error.toString() === 'Error: Request failed with status code 401'){
-            alert('Email ou mot de passe incorrect')
-            setError(null)
-        }
-        return (
-            <>
-                <div>Une erreur est survenue</div>
-                <Erreur error={error} />
-            </>
-        )
-    } else if (!isLoaded) {
+    // ************************************
+    // ********* Rendu de la page *********
+    // ************************************
+
+    if (!isLoaded) {
         return (
             <>
                 <Spinner/>
@@ -43,65 +66,35 @@ function PageConnexion(props) {
     } else {
         return (
             <>
-                {/* <!-- Carousel  --> */}
-                <div id="carouselExampleIndicators" className="carousel slide" data-ride="carousel">
-                    <div className="carousel-inner">
-                        <div className="carousel-item active">
-                            <img src="/images/utilisateur/slideconnexion.jpg" className="d-block w-100" alt="..."/>
-                        </div>
-                    </div>
-                </div>
-                {/* <!-- Fin carousel --> */}
+                <Carousselle chemin="utilisateur/slideconnexion.jpg"/>
+
+                {erreurMsg ?
+                    erreurMsg === '401 : Invalid credentials.' ?
+                        <Alert type="warning" message="Email ou mot de passe incorrect"/>
+                        :
+                        <Alert type="danger" message={erreurMsg}/>
+                    :
+                    ""
+                }
 
                 <form onSubmit={handleSubmit(onSubmit)}>
                     <div className="container">
                         <div className="row mt-4">
+
                             <div className="col-md mt-1">
-                                <div className="form-group mt-5">
-                                    <label htmlFor="email">Email</label>
-                                    <input
-                                        type="email"
-                                        className="form-control"
-                                        name="email"
-                                        ref={register({
-                                            required: "Champs obligatoire",
-                                            pattern: {
-                                                value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i,
-                                                message: "Email invalide"
-                                            }
-                                        })}/>
-                                    <small
-                                        className="form-text text-muted text-warning">{errors.email && errors.email.message}</small>
-                                </div>
-
-                                <div className="form-group">
-                                    <label htmlFor="password">Mot de passe</label>
-                                    <input
-                                        type="password"
-                                        className="form-control"
-                                        defaultValue=""
-                                        name="password"
-                                        ref={register({
-                                            required: "Champs obligatoire",
-                                            pattern: {
-                                                value: /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/i,
-                                                message: "Mot de passe invalide"
-                                            }
-                                        })}/>
-                                    <small className="form-text text-mute">8 caractères minimum dont un chiffre et une
-                                        lettre</small>
-                                    <small
-                                        className="form-text text-muted ">{errors.password && errors.password.message}</small>
-                                </div>
-
+                                <ChampInputEmail name="email" label="Email" value={valeursForm.email}
+                                                 onChange={handleChange}/>
+                                <ChampInputPassword name="password" label="Mot de passe" value={valeursForm.password}
+                                                    onChange={handleChange}/>
                                 <button type="submit" className="btn btn-warning">Envoyer</button>
-
                                 {/*TODO YC : Gérer la perte de mot de passe*/}
                             </div>
 
                             <div className="col-md mt-4">
-                                <img src="/images/utilisateur/connexion-burger.jpg" className="d-block w-100" alt="..."/>
+                                <img src="/images/utilisateur/connexion-burger.jpg" className="d-block w-100"
+                                     alt="..."/>
                             </div>
+
                         </div>
                     </div>
                 </form>
