@@ -36,13 +36,7 @@ function PageConnexion(props) {
                 history.push("/"); //redirection homepage
             })
             .catch((err) => {
-                // TODO YC : j'aurais bien aimé vérifier que j'ai un objet reponse dans l'objet erreur et non pas le déduire à partir du message de l'erreur,
-                //  car dans le cas ou l'API est down, il n'y a pas de réponse.
-                //  J'ai testé avec les lignes commentés suivantes mais soit le test ne foncitonne pas, soit ca plante a cause d'un undefined
-                // if (err.response !== null){
-                // if (err.response !== undefined){
-                // if (err.hasOwnProperty('response')){
-                if (err.message !== "Network Error" && err.response.data.hasOwnProperty('message')) {
+                if (typeof err.response !=="undefined" && err.response.data.hasOwnProperty('message')) {
                     if (err.response.data.message === 'Invalid credentials.') {
                         setErreurMsg("Email ou mot de passe incorrect")
                         setTypeErreurMsg("warning")
@@ -50,7 +44,7 @@ function PageConnexion(props) {
                         setErreurMsg(err.response.status + " : " + err.response.data.message)
                         setTypeErreurMsg("danger")
                     }
-                } else if (err.message !== "Network Error" && err.response.data.hasOwnProperty('detail')) {
+                } else if (typeof err.response !=="undefined" && err.response.data.hasOwnProperty('detail')) {
                     setErreurMsg(err.response.status + " : " + err.response.data.detail)
                     setTypeErreurMsg("danger")
                 } else {

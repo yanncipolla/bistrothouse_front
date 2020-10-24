@@ -22,7 +22,7 @@ function PageProduit(props) {
                 setErreurMsg(null)
             })
             .catch((err) => {
-                if (err.message !== "Network Error" && err.response.data.hasOwnProperty('detail')) {
+                if (typeof err.response !=="undefined" && err.response.data.hasOwnProperty('detail')) {
                     setErreurMsg(err.response.status + " : " + err.response.data.detail)
                 } else {
                     setErreurMsg(err.message)
