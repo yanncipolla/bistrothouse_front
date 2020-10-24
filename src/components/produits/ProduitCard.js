@@ -30,7 +30,7 @@ const ProduitCard = (props) => {
                             <div className="col-auto px-0 mx-0">
                                 <input type="number" className="form-control input-number"
                                        onChange={(e) => {
-                                           if (e.target.value == 0){
+                                           if (e.target.value === "0"){
                                                e.target.value = "1"
                                            } else {
                                                setQte(parseInt(e.target.value))
