@@ -1,12 +1,12 @@
 import React from "react";
 
-function Carousselle(props) {
+function SlidePrincipal(props) {
 
     return(
-        <div id="carouselExampleIndicators" className="carousel slide" data-ride="carousel">
+        <div className="carousel slide" data-ride="carousel">
             <div className="carousel-inner">
                 <div className="carousel-item active">
-                    <img src={"/images/" + props.chemin} className="d-block w-100" alt="..."/>
+                    <img src={"/images/" + props.image} className="d-block w-100" alt="..."/>
                 </div>
             </div>
         </div>
@@ -14,4 +14,4 @@ function Carousselle(props) {
 
 }
 
-export default Carousselle;
+export default SlidePrincipal;

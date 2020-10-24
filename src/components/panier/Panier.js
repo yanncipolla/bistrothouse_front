@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from "react";
+import React from "react";
 import TotalPanier from "./TotalPanier";
 import LignePanier from "./LignePanier";
 
@@ -15,6 +15,7 @@ function Panier(props) {
                              prix={panierLigne.prix}
                              photo={panierLigne.photo}
                              qte={panierLigne.qte}
+                             rechargerPanier={props.rechargerPanier}
                 />
                 )
             )}

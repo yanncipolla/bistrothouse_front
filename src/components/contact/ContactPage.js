@@ -1,27 +1,13 @@
 import React from "react";
 import CarteAdresse from "./CarteAdresse";
 import InfosContact from "./InfosContact";
+import SlidePrincipal from "../utils/SlidePrincipal";
 
 const ContactPage = () => {
     return (
         <>
-            {/* <!-- Carousel  --> */}
-            <div
-                id="carouselExampleIndicators"
-                className="carousel slide"
-                data-ride="carousel"
-            >
-                <div className="carousel-inner">
-                    <div className="carousel-item active">
-                        <img
-                            src="/images/contact/slidepagecontact.jpg"
-                            className="d-block w-100"
-                            alt="..."
-                        />
-                    </div>
-                </div>
-            </div>
-            {/* <!-- Fin carousel --> */}
+
+            <SlidePrincipal image="contact/slidepagecontact.jpg" />
 
             {/* <!-- Adresse + carte --> */}
             <div className="container">

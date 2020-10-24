@@ -1,21 +1,19 @@
-import React, {useEffect, useState} from "react";
-import {useForm} from "react-hook-form";
+import React, {useState} from "react";
 import {useHistory} from "react-router-dom"
 import {postLogin} from "../../services/apiService";
 import Spinner from "../utils/Spinner";
 import ChampInputEmail from "../utils/formulaire/champInputEmail";
 import ChampInputPassword from "../utils/formulaire/champInputPassword";
-import Carousselle from "../utils/Carousselle";
+import SlidePrincipal from "../utils/SlidePrincipal";
 import Alert from "../utils/Alert";
 
 function PageConnexion(props) {
 
     const history = useHistory();
 
-    const {handleSubmit, register, errors} = useForm();
     const [isLoaded, setIsLoaded] = useState(true);
-    const [error, setError] = useState(null);
     const [erreurMsg, setErreurMsg] = useState(null);
+    const [typeErreurMsg, setTypeErreurMsg] = useState(null);
     const [valeursForm, setValeursForm] = useState({
         'email': "",
         'password': ""
@@ -45,9 +43,19 @@ function PageConnexion(props) {
                 // if (err.response !== undefined){
                 // if (err.hasOwnProperty('response')){
                 if (err.message !== "Network Error" && err.response.data.hasOwnProperty('message')) {
-                    setErreurMsg(err.response.status + " : " + err.response.data.message)
+                    if (err.response.data.message === 'Invalid credentials.') {
+                        setErreurMsg("Email ou mot de passe incorrect")
+                        setTypeErreurMsg("warning")
+                    } else {
+                        setErreurMsg(err.response.status + " : " + err.response.data.message)
+                        setTypeErreurMsg("danger")
+                    }
+                } else if (err.message !== "Network Error" && err.response.data.hasOwnProperty('detail')) {
+                    setErreurMsg(err.response.status + " : " + err.response.data.detail)
+                    setTypeErreurMsg("danger")
                 } else {
                     setErreurMsg(err.message)
+                    setTypeErreurMsg("danger")
                 }
             })
             .finally(() => setIsLoaded(true))
@@ -66,18 +74,11 @@ function PageConnexion(props) {
     } else {
         return (
             <>
-                <Carousselle chemin="utilisateur/slideconnexion.jpg"/>
+                <SlidePrincipal image="utilisateur/slideconnexion.jpg"/>
 
-                {erreurMsg ?
-                    erreurMsg === '401 : Invalid credentials.' ?
-                        <Alert type="warning" message="Email ou mot de passe incorrect"/>
-                        :
-                        <Alert type="danger" message={erreurMsg}/>
-                    :
-                    ""
-                }
+                {erreurMsg ? <Alert type={typeErreurMsg} message={erreurMsg}/> : "" }
 
-                <form onSubmit={handleSubmit(onSubmit)}>
+                <form onSubmit={onSubmit}>
                     <div className="container">
                         <div className="row mt-4">
 

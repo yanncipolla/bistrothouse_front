@@ -19,11 +19,10 @@ function LignePanier(props) {
             <div className="col-auto py-3 d-flex flex-wrap align-content-center justify-content-center border-bottom">
                 <div className="row">
                     <div className="col d-flex align-items-center btn btn-outline-dark">
-                        <img src="/images/panier/supprimer.png"
+                        <img src="/images/panier/supprimer.png" alt="Supprimer"
                              onClick={()=>{
                                  supprimerProduitDuPanier(props.ligne)
-                                 // TODO : Rafraichir juste le composant panier une fois celui-ci supprimer
-                                 window.location.reload(false);
+                                 props.rechargerPanier()
                              }}
                         />
                     </div>

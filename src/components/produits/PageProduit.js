@@ -1,16 +1,17 @@
 import React, {useEffect, useState} from "react";
 import ProduitsListe from "./ProduitListe";
 import {getCategorieProduit} from "../../services/apiService";
-import Erreur from "../utils/Erreur";
 import Spinner from "../utils/Spinner";
 import {useLocation} from "react-router-dom";
+import SlidePrincipal from "../utils/SlidePrincipal";
+import Alert from "../utils/Alert";
 
 function PageProduit(props) {
 
     const location = useLocation();
 
-    const [error, setError] = useState(null);
-    const [isLoaded, setIsLoaded] = useState(false);
+    const [isLoaded, setIsLoaded] = useState(true);
+    const [erreurMsg, setErreurMsg] = useState(null);
     const [produits, setProduits] = useState([]);
 
     useEffect(() => {
@@ -18,22 +19,24 @@ function PageProduit(props) {
         getCategorieProduit(props.categorieProduit)
             .then((result) => {
                 setProduits(result.data[0]['produits']);
+                setErreurMsg(null)
             })
-            .catch((e) => setError(e))
+            .catch((err) => {
+                if (err.message !== "Network Error" && err.response.data.hasOwnProperty('detail')) {
+                    setErreurMsg(err.response.status + " : " + err.response.data.detail)
+                } else {
+                    setErreurMsg(err.message)
+                }
+                setProduits([])
+            })
             .finally(() => setIsLoaded(true));
-    }, [location]);
+    }, [location, props.categorieProduit]);
 
     // ************************************
     // ********* Rendu de la page *********
     // ************************************
-    if (error){
-        return (
-            <>
-                <div>Une erreur est survenue</div>
-                <Erreur error={error} />
-            </>
-        )
-    } else if (!isLoaded){
+
+    if (!isLoaded){
         return (
             <>
                 <Spinner />
@@ -42,19 +45,15 @@ function PageProduit(props) {
     } else {
         return (
             <>
-                {/* <!-- Carousel  --> */}
-                <div id="carouselExampleIndicators" className="carousel slide" data-ride="carousel">
-                    <div className="carousel-inner">
-                        <div className="carousel-item active">
-                            <img src={"/images/produits/slide" + props.categorieProduit + ".jpg"} className="d-block w-100" alt="..."/>
-                        </div>
-                    </div>
-                </div>
-                {/* <!-- Fin carousel --> */}
+
+                <SlidePrincipal image={"produits/slide" + props.categorieProduit + ".jpg"} />
+
+                {erreurMsg ? <Alert type="danger" message={erreurMsg}/> : "" }
 
                 <div className="container">
                     <ProduitsListe produits={produits}/>
                 </div>
+
             </>
         )
     }
