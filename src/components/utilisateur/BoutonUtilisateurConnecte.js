@@ -9,7 +9,7 @@ function BoutonUtilisateurConnecte(props) {
     return (
         <>
             <span className="btn btn-warning px-4 ml-2">
-                <div className="row text-secondary"
+                <div className="row text-secondary justify-content-center"
                      // onClick={() => {
                      //     getAdminVerifie()
                      //         .then((result) => {
