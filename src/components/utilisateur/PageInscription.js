@@ -7,7 +7,6 @@ import SlidePrincipal from "../utils/SlidePrincipal";
 import Alert from "../utils/Alert";
 import ChampInputText from "../utils/formulaire/champInputText";
 import {controleValiditeeChampForm} from "../../services/formulaireService";
-// import {controleValiditeeForm} from "../../services/formulaireService";
 
 function PageInscription() {
 
@@ -54,8 +53,6 @@ function PageInscription() {
     }
 
     function controleRegex(){
-
-        //*/*************************VERSION AVEC FONCTION PAR CHAMP
         setFormValide(true)
         for (const champ in donneesForm){
             let champControle = controleValiditeeChampForm(donneesForm[champ], regex[champ])
@@ -64,55 +61,6 @@ function PageInscription() {
             ))
             if (!champControle[1]){setFormValide(false)}
         }
-
-        // //*/*************************VERSION AVEC FONCTION POUR TOUT LE FORMULAIRE
-        // setDonneesForm(controleValiditeeForm(donneesForm, regex))
-
-        // //*/*************************VERSION SANS FONCTION
-        // // debugger
-        // setFormValide(true)
-        // for (const champ in donneesForm){
-        //     console.log("**************** Champ : ", champ, " /// Sa valeur : ", donneesForm[champ].value ," ****************")
-        //     //Est ce que le champs est requis ?
-        //     if (regex[champ].requis){
-        //         console.log("  Le champ ne peut etre vide")
-        //         if (donneesForm[champ].value === ""){
-        //             setDonneesForm((donneesForm) => (
-        //                     {...donneesForm, [champ] : {...donneesForm[champ], 'msgErreur' : "Champ requis"}}
-        //                 )
-        //             )
-        //             setFormValide(false)
-        //             console.log("    Le champ est vide, PROBLEME, j'indique le message de champ requis et passe a false FormValide", donneesForm[champ], formValide)
-        //         } else {
-        //             setDonneesForm((donneesForm) => (
-        //                     {...donneesForm, [champ] : {...donneesForm[champ], 'msgErreur' : ""}}
-        //                 )
-        //             )
-        //             console.log("    Le champ n'est pas vide, TOUT VA BIEN, j efface le message et je ne touche pas au FormValide", donneesForm[champ], formValide)
-        //         }
-        //     }
-        //     //Si il n'y a pas eu de blocage a cause du champ requis et que qu'il y a une reggex à valider
-        //     console.log("Les test de requis ou non sont terminés, nous allons passer aux tests de regex. La valeur du message du champ est : ", donneesForm[champ].msgErreur)
-        //     if (donneesForm[champ].msgErreur === "" && regex[champ].hasOwnProperty('regexValue')){
-        //         console.log("  Le champ n'a pas eu de probleme de type requis ou non et il contient bien une regex a vérifier")
-        //         //Est ce que le champ repond a la regex ?
-        //         if (regex[champ].regexValue.test(donneesForm[champ].value)){
-        //             setDonneesForm((donneesForm) => (
-        //                     {...donneesForm, [champ] : {...donneesForm[champ], 'msgErreur' : ""}}
-        //                 )
-        //             )
-        //             console.log("    le test de la regex a renvoyer true, TOUT VA BIEN, j efface le message et je ne touche pas au FormValide", donneesForm[champ], formValide)
-        //         } else {
-        //             setFormValide(false)
-        //             setDonneesForm((donneesForm) => (
-        //                     {...donneesForm, [champ] : {...donneesForm[champ], 'msgErreur' : regex[champ].msg}}
-        //                 )
-        //             )
-        //             console.log("    le test de la regex a renvoyer false, PROBLEME, j'indique le message d erreur  et passe a false FormValide", donneesForm[champ], formValide)
-        //         }
-        //     }
-        //     console.log("AU FINAL LE CHAMP : ", donneesForm[champ])
-        // }
     }
 
     function onSubmit(e) {
