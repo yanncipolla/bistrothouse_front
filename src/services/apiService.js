@@ -1,13 +1,9 @@
 import Axios from "axios";
-import {API_CATEGORIE_PRODUIT, API_LOGIN} from "../constantes";
+import {API_CATEGORIE_PRODUIT, API_INSCRIPTION, API_LOGIN} from "../constantes";
 import jwt_decode from "jwt-decode";
 
 export function getCategorieProduit (nomCategorie) {
     return Axios.get(API_CATEGORIE_PRODUIT, {headers : {'Accept' : 'application/json'}, params : {'nom' : nomCategorie}})
-    // TODO vérfier si besoin des lignes ci-dessou pour vérifier les erreurs
-        // .catch(async (e) => {
-        //     throw e
-        // })
 };
 
 export async function postLogin(email, password) {
@@ -20,4 +16,8 @@ export async function postLogin(email, password) {
     const decodedToken = jwt_decode(token);
     window.localStorage.setItem('useremail', decodedToken.username)
     window.localStorage.setItem('dateToken', String(Math.round(new Date().getTime() / 1000)))
+}
+
+export function postUtilisateurs(data){
+    return Axios.post(API_INSCRIPTION, data)
 }

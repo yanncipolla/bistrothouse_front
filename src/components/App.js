@@ -10,6 +10,7 @@ import {checkTokenValidity} from "../services/authentificationService";
 import PageIntrouvable from "./PageIntrouvable";
 import Modele from "./Modele";
 import PagePanier from "./panier/PagePanier";
+import PageInscription from "./utilisateur/PageInscription";
 
 function App() {
 
@@ -41,6 +42,7 @@ function App() {
                         <Route path='/tapas' render={(props) => <PageProduit {...props} categorieProduit={'Tapas'} />} />
                         <Route path="/panier" render={(props) => <PagePanier {...props} loginState={loginState} />} />
                         <Route path="/connexion" render={(props) => <PageConnexion {...props} handleLoginState={(etat) => handleLoginState(etat)} />} />
+                        <Route path="/inscription" render={(props) => <PageInscription />} />
 
                         <Route path="/test" component={Modele}/>
 

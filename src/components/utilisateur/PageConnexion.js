@@ -137,7 +137,7 @@ function PageConnexion(props) {
                             </div>
 
                             <div className="col-md mt-4">
-                                <img src="/images/utilisateur/connexion-burger.jpg" className="d-block w-100"
+                                <img src="/images/utilisateur/connexion-img-formulaire.jpg" className="d-block w-100"
                                      alt="..."/>
                             </div>
 
