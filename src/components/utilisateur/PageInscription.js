@@ -31,7 +31,7 @@ function PageInscription() {
     });
 
     const regex = {
-        "email" : {'regexValue' : /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i, 'msg' : "Email putain d'invalide", 'requis' : true},
+        "email" : {'regexValue' : /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i, 'msg' : "Email invalide", 'requis' : true},
         "password" : {'regexValue' : /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/i, 'msg' : "Password invalide", 'requis' : true},
         "prenom" : {'regexValue' : /^[a-z ,.'-]+$/i, 'msg' : "Prenom invalide", 'requis' : true},
         "nom" : {'regexValue' : /^[a-z ,.'-]+$/i, 'msg' : "Nom invalide", 'requis' : true},
