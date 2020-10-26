@@ -12,6 +12,8 @@ function ChampInputPassword(props) {
                 value={props.value}
                 onChange={props.onChange}
             />
+            <small className="form-text text-mute">8 caractères minimum dont un chiffre et une lettre</small>
+            <small className="form-text text-mute text-danger">{props.invalide}</small>
         </div>
 
     );

@@ -12,6 +12,7 @@ function ChampInputEmail(props) {
                 value={props.value}
                 onChange={props.onChange}
             />
+            <small className="form-text text-mute text-danger">{props.invalide}</small>
         </div>
 
     );
