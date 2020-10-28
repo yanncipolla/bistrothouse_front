@@ -1,5 +1,5 @@
 import Axios from "axios";
-import {API_CATEGORIE_PRODUIT, API_INSCRIPTION, API_LOGIN} from "../constantes";
+import {API_CATEGORIE_PRODUIT, API_DONNEES_UTILISATEUR, API_INSCRIPTION, API_LOGIN} from "../constantes";
 import jwt_decode from "jwt-decode";
 
 export function getCategorieProduit (nomCategorie) {
@@ -21,3 +21,7 @@ export async function postLogin(email, password) {
 export function postUtilisateurs(data){
     return Axios.post(API_INSCRIPTION, data)
 }
+
+export const getUtilisateur = () => {
+    return Axios.get(API_DONNEES_UTILISATEUR, {headers: {'Authorization': 'Bearer ' + window.localStorage.token}})
+};

@@ -1,0 +1,32 @@
+.badgeTitre{
+    /*Ma personnalisation*/
+    cursor: default !important;
+    padding: 1rem 5rem 1rem 5rem;
+    margin: 2rem 5rem 2rem 5rem;
+
+    /*Bootstrap classe text-dark*/
+    color: #343a40 !important;
+    /*Bootstrap classe font-weight-bold*/
+    font-weight: 700 !important;
+    /*Bootstrap classe btn-block*/
+    display: block;
+    width: 100%;
+    /*Bootstrap classe btn-lg*/
+    /*padding: .5rem 1rem;*/
+    font-size: 1.25rem;
+    line-height: 1.5;
+    border-radius: .4rem;
+    /*Bootstrap classe btn-warning*/
+    background-color: #ffc107;
+    border-color: #ffc107;
+    /*Bootstrap classe btn*/
+    text-align: center;
+    user-select: none;
+    border: 1px solid transparent;
+    /*transition: color .15s ease-in-out,background-color .15s ease-in-out,border-color .15s ease-in-out,box-shadow .15s ease-in-out;*/
+    font-family: 'Just Another Hand', cursive;
+
+    /*button*/
+    text-transform: none;
+    overflow: visible;
+}
