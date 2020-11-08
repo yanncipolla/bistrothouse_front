@@ -37,6 +37,17 @@ export const getUtilisateur = () => {
     return Axios.get(API_DONNEES_UTILISATEUR, {headers: {'Authorization': 'Bearer ' + window.localStorage.token}})
 };
 
-export const putUtilisateur = (data) => {
+export const putUtilisateur = (donneesForm) => {
+    const data = {
+        'email': donneesForm.email.value,
+        'password': donneesForm.password.value,
+        'prenom': donneesForm.prenom.value,
+        'nom': donneesForm.nom.value,
+        'telephone': donneesForm.telephone.value,
+        'complement': donneesForm.complement.value,
+        'numEtRue': donneesForm.numEtRue.value,
+        'ville': donneesForm.ville.value,
+        'cp': donneesForm.cp.value
+    }
     return Axios.put(API_DONNEES_UTILISATEUR, data,{headers: {'Authorization': 'Bearer ' + window.localStorage.token}})
 };

@@ -30,8 +30,8 @@ function PageInscription(props) {
     const regex = {
         "email" : {'regexValue' : /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i, 'msg' : "Email invalide", 'requis' : true},
         "password" : {'regexValue' : /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/i, 'msg' : "Password invalide", 'requis' : true},
-        "prenom" : {'regexValue' : /^[a-z ,.'-]+$/i, 'msg' : "Prenom invalide", 'requis' : true},
-        "nom" : {'regexValue' : /^[a-z ,.'-]+$/i, 'msg' : "Nom invalide", 'requis' : true},
+        "prenom" : {'regexValue' : /^\S[a-z ,.'àçèéêë-]+$/i, 'msg' : "Prenom invalide", 'requis' : true},
+        "nom" : {'regexValue' : /^\S[a-z ,.'àçèéêë-]+$/i, 'msg' : "Nom invalide", 'requis' : true},
         "telephone" : {'regexValue' : /^(?:(?:\+|00)33[\s.-]{0,3}(?:\(0\)[\s.-]{0,3})?|0)[1-9](?:(?:[\s.-]?\d{2}){4}|\d{2}(?:[\s.-]?\d{3}){2})$/i, 'msg' : "Telephone invalide", 'requis' : true},
         "complement" : {'requis' : false},
         "numEtRue" : {'regexValue' : /[A-Za-z0-9'.-\s,]/i, 'msg' : "Rue invalide", 'requis' : true},
@@ -76,13 +76,16 @@ function PageInscription(props) {
                         if (err.response.data.message === "Inscription impossible : L'adresse email existe déjà.") {
                             setErreurMsg(err.response.data.message)
                             setTypeErreurMsg("warning")
+                            setInfoMsg(null)
                         }
                     } else if (typeof err.response !=="undefined" && err.response.data.hasOwnProperty('detail')) {
                         setErreurMsg(err.response.status + " : " + err.response.data.detail)
                         setTypeErreurMsg("danger")
+                        setInfoMsg(null)
                     } else {
                         setErreurMsg(err.message)
                         setTypeErreurMsg("danger")
+                        setInfoMsg(null)
                     }
                 })
                 .finally(() => {

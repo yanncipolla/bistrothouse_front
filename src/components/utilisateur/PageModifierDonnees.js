@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from "react";
 import {controleValiditeeChampForm} from "../../services/formulaireService";
-import {getUtilisateur, putUtilisateur, postLogin, postUtilisateurs} from "../../services/apiService";
+import {getUtilisateur, putUtilisateur} from "../../services/apiService";
 import Spinner from "../utils/Spinner";
 import SlidePrincipal from "../utils/SlidePrincipal";
 import Alert from "../utils/Alert";
@@ -28,8 +28,7 @@ function PageModiferDonnees(props) {
         'nom': {'value' : "", 'msgErreur' : ""},
         'telephone': {'value' : "", 'msgErreur' : ""},
         'complement': {'value' : "", 'msgErreur' : ""},
-        'numero': {'value' : "", 'msgErreur' : ""},
-        'rue': {'value' : "", 'msgErreur' : ""},
+        'numEtRue': {'value' : "", 'msgErreur' : ""},
         'ville': {'value' : "", 'msgErreur' : ""},
         'cp': {'value' : "", 'msgErreur' : ""},
     });
@@ -37,12 +36,11 @@ function PageModiferDonnees(props) {
     const regex = {
         "email" : {'regexValue' : /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i, 'msg' : "Email invalide", 'requis' : false},
         "password" : {'regexValue' : /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/i, 'msg' : "Password invalide", 'requis' : false},
-        "prenom" : {'regexValue' : /^[a-z ,.'-]+$/i, 'msg' : "Prenom invalide", 'requis' : false},
-        "nom" : {'regexValue' : /^[a-z ,.'-]+$/i, 'msg' : "Nom invalide", 'requis' : false},
+        "prenom" : {'regexValue' : /^\S[a-z ,.'àçèéêë-]+$/i, 'msg' : "Prenom invalide", 'requis' : false},
+        "nom" : {'regexValue' : /^\S[a-z ,.'àçèéêë-]+$/i, 'msg' : "Nom invalide", 'requis' : false},
         "telephone" : {'regexValue' : /^(?:(?:\+|00)33[\s.-]{0,3}(?:\(0\)[\s.-]{0,3})?|0)[1-9](?:(?:[\s.-]?\d{2}){4}|\d{2}(?:[\s.-]?\d{3}){2})$/i, 'msg' : "Telephone invalide", 'requis' : false},
         "complement" : {'requis' : false},
-        "numero" : {'regexValue' : /^[1-9]\d{0,3}(?:[a-zA-Z]{1,2}\d{0,3})?$/i, 'msg' : "Numero invalide", 'requis' : false},
-        "rue" : {'regexValue' : /[A-Za-z0-9'.-\s,]/i, 'msg' : "Rue invalide", 'requis' : false},
+        "numEtRue" : {'regexValue' : /[A-Za-z0-9'.-\s,]/i, 'msg' : "Rue invalide", 'requis' : false},
         "ville" : {'regexValue' : /^[a-zA-Z]+(?:[\s-][a-zA-Z]+)*$/i, 'msg' : "Ville invalide", 'requis' : false},
         "cp" : {'regexValue' : /^(F-)?((2[A|B])|[0-9]{2})[0-9]{3}$/i, 'msg' : "Code postal invalide", 'requis' : false},
     }
@@ -52,19 +50,12 @@ function PageModiferDonnees(props) {
         getUtilisateur()
             .then((result) => {
                 for (let champ in result.data){
-                    if (champ == 'adresse'){
-                        for (let sousChamp in result.data[champ]){
-                            setDonneesForm((donneesForm)=>(
-                                {...donneesForm, [sousChamp] : { 'value' : result.data[champ][sousChamp], 'msgErreur' : ""}}
-                            ))
-                        }
-                    }
                     setDonneesForm((donneesForm)=>(
                         {...donneesForm, [champ] : { 'value' : result.data[champ], 'msgErreur' : ""}}
                     ))
                 }
                 // TODO TOTO : pourquoi ce putain de console log fonctionne pas
-                console.log("donnesForm dans le .then" ,donneesForm)
+                // console.log("donnesForm dans le .then" ,donneesForm)
             })
             .catch((err)=>{
                 if (
@@ -74,16 +65,17 @@ function PageModiferDonnees(props) {
                 {
                     setErreurMsg("Session expirée, veuillez vous reconnecter")
                     setTypeErreurMsg("warning")
+                    setInfoMsg(null)
                     deconnexion()
                     //TODO TOTO
                     //TODO apres la deconnexion il faudrait rafraichir le bouton se connecter de la navbar
                 } else {
                     setErreurMsg(err.message)
                     setTypeErreurMsg("danger")
+                    setInfoMsg(null)
                 }
             })
             .finally(()=>{
-                console.log("donnesForm dans le .finaly",donneesForm)
                 setIsLoaded(true)
             })
 
@@ -101,7 +93,6 @@ function PageModiferDonnees(props) {
     function controlerFormulaire(){
         setFormValide(true)
         for (const champ in donneesForm){
-            // console.log("champ--->", champ)
             let champControle = controleValiditeeChampForm(donneesForm[champ], regex[champ])
             setDonneesForm((donnesForm)=>(
                 {...donnesForm, [champ] : champControle[0]}
@@ -111,27 +102,10 @@ function PageModiferDonnees(props) {
     }
 
     function onSubmit(e) {
-        // debugger
-        console.log(donneesForm)
         controlerFormulaire()
-        debugger
         if (formValide){
             setIsLoaded(false)
-            let data = {
-                'email': donneesForm.email.value,
-                'password': donneesForm.password.value,
-                'prenom': donneesForm.prenom.value,
-                'nom': donneesForm.nom.value,
-                'telephone': donneesForm.telephone.value,
-                'complement': donneesForm.complement.value,
-                'adresse' : {
-                    'numero': donneesForm.numero.value,
-                    'rue': donneesForm.rue.value,
-                    'ville': donneesForm.ville.value,
-                    'cp': donneesForm.cp.value
-                }
-            }
-            putUtilisateur(data)
+            putUtilisateur(donneesForm)
                 .then(() => {
                     setInfoMsg("Vos données ont bien été modifées")
                     setDonneesForm((donneesForm)=>(
@@ -141,12 +115,13 @@ function PageModiferDonnees(props) {
                 })
                 .catch((err) => {
                     if (
-                        typeof err.response !=="undefined"
-                        && err.response.status == '401'
+                        typeof err.response !== "undefined"
+                        && err.response.status === '401'
                         && (err.response.data.message === 'JWT Token not found' || err.response.data.message === 'Invalid JWT Token') || err.response.data.message === 'Expired JWT Token')
                     {
                         setErreurMsg("Session expirée, veuillez vous reconnecter")
                         setTypeErreurMsg("warning")
+                        setInfoMsg(null)
                         deconnexion()
                         //TODO TOTO
                         //TODO apres la deconnexion il faudrait rafraichir le bouton se connecter de la navbar
@@ -154,13 +129,16 @@ function PageModiferDonnees(props) {
                         if (err.response.data.message === "Modification impossible : L'adresse email existe déjà.") {
                             setErreurMsg(err.response.data.message)
                             setTypeErreurMsg("warning")
+                            setInfoMsg(null)
                         }
                     } else if (typeof err.response !=="undefined" && err.response.data.hasOwnProperty('detail')) {
                         setErreurMsg(err.response.status + " : " + err.response.data.detail)
                         setTypeErreurMsg("danger")
+                        setInfoMsg(null)
                     } else {
                         setErreurMsg(err.message)
                         setTypeErreurMsg("danger")
+                        setInfoMsg(null)
                     }
                 })
                 .finally(() => {
@@ -212,8 +190,7 @@ function PageModiferDonnees(props) {
                                 <ChampInputPassword name="password" label="Mot de passe" value={donneesForm.password.value} invalide={donneesForm.password.msgErreur} onChange={handleChange}/>
                                 <ChampInputText name="prenom" label="Prénom" value={donneesForm.prenom.value} invalide={donneesForm.prenom.msgErreur} onChange={handleChange} />
                                 <ChampInputText name="nom" label="Nom" value={donneesForm.nom.value} invalide={donneesForm.nom.msgErreur} onChange={handleChange} />
-                                <ChampInputText name="numero" label="Numéro" value={donneesForm.numero.value} invalide={donneesForm.numero.msgErreur} onChange={handleChange} />
-                                <ChampInputText name="rue" label="Rue" value={donneesForm.rue.value} invalide={donneesForm.rue.msgErreur} onChange={handleChange} />
+                                <ChampInputText name="numEtRue" label="Numéro et rue" value={donneesForm.numEtRue.value} invalide={donneesForm.numEtRue.msgErreur} onChange={handleChange} />
                                 <ChampInputText name="cp" label="Code postal" value={donneesForm.cp.value} invalide={donneesForm.cp.msgErreur} onChange={handleChange} />
                                 <ChampInputText name="ville" label="Ville" value={donneesForm.ville.value} invalide={donneesForm.ville.msgErreur} onChange={handleChange} />
                                 <ChampInputText name="complement" label="Complement d'information pour l'adresse" value={donneesForm.complement.value} invalide={donneesForm.complement.msgErreur} onChange={handleChange} />
