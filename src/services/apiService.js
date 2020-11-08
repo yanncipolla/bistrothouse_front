@@ -18,7 +18,18 @@ export async function postLogin(email, password) {
     window.localStorage.setItem('dateToken', String(Math.round(new Date().getTime() / 1000)))
 }
 
-export function postUtilisateurs(data){
+export function postUtilisateurs(donneesForm){
+    const data = {
+        'email': donneesForm.email.value,
+        'password': donneesForm.password.value,
+        'prenom': donneesForm.prenom.value,
+        'nom': donneesForm.nom.value,
+        'telephone': donneesForm.telephone.value,
+        'complement': donneesForm.complement.value,
+        'numEtRue': donneesForm.numEtRue.value,
+        'ville': donneesForm.ville.value,
+        'cp': donneesForm.cp.value
+    }
     return Axios.post(API_INSCRIPTION, data)
 }
 

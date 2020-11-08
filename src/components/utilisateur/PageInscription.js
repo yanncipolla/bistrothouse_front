@@ -22,8 +22,7 @@ function PageInscription(props) {
         'nom': {'value' : "", 'msgErreur' : ""},
         'telephone': {'value' : "", 'msgErreur' : ""},
         'complement': {'value' : "", 'msgErreur' : ""},
-        'numero': {'value' : "", 'msgErreur' : ""},
-        'rue': {'value' : "", 'msgErreur' : ""},
+        'numEtRue': {'value' : "", 'msgErreur' : ""},
         'ville': {'value' : "", 'msgErreur' : ""},
         'cp': {'value' : "", 'msgErreur' : ""},
     });
@@ -35,8 +34,7 @@ function PageInscription(props) {
         "nom" : {'regexValue' : /^[a-z ,.'-]+$/i, 'msg' : "Nom invalide", 'requis' : true},
         "telephone" : {'regexValue' : /^(?:(?:\+|00)33[\s.-]{0,3}(?:\(0\)[\s.-]{0,3})?|0)[1-9](?:(?:[\s.-]?\d{2}){4}|\d{2}(?:[\s.-]?\d{3}){2})$/i, 'msg' : "Telephone invalide", 'requis' : true},
         "complement" : {'requis' : false},
-        "numero" : {'regexValue' : /^[1-9]\d{0,3}(?:[a-zA-Z]{1,2}\d{0,3})?$/i, 'msg' : "Numero invalide", 'requis' : true},
-        "rue" : {'regexValue' : /[A-Za-z0-9'.-\s,]/i, 'msg' : "Rue invalide", 'requis' : true},
+        "numEtRue" : {'regexValue' : /[A-Za-z0-9'.-\s,]/i, 'msg' : "Rue invalide", 'requis' : true},
         "ville" : {'regexValue' : /^[a-zA-Z]+(?:[\s-][a-zA-Z]+)*$/i, 'msg' : "Ville invalide", 'requis' : true},
         "cp" : {'regexValue' : /^(F-)?((2[A|B])|[0-9]{2})[0-9]{3}$/i, 'msg' : "Code postal invalide", 'requis' : true},
     }
@@ -65,26 +63,12 @@ function PageInscription(props) {
         controleRegex()
         if (formValide){
             setIsLoaded(false)
-            let data = {
-                'email': donneesForm.email.value,
-                'password': donneesForm.password.value,
-                'prenom': donneesForm.prenom.value,
-                'nom': donneesForm.nom.value,
-                'telephone': donneesForm.telephone.value,
-                'complement': donneesForm.complement.value,
-                'adresse' : {
-                    'numero': donneesForm.numero.value,
-                    'rue': donneesForm.rue.value,
-                    'ville': donneesForm.ville.value,
-                    'cp': donneesForm.cp.value
-                }
-            }
-            postUtilisateurs(data)
+            postUtilisateurs(donneesForm)
                 .then(() => {
                     setInfoMsg("Inscription réalisée avec succès. Vous pouvez maintenant vous connecter.")
                     setDonneesForm({'email': {'value' : "", 'msgErreur' : ""}, 'password': {'value' : "", 'msgErreur' : ""}, 'prenom': {'value' : "", 'msgErreur' : ""},
-                        'nom': {'value' : "", 'msgErreur' : ""}, 'telephone': {'value' : "", 'msgErreur' : ""}, 'complement': {'value' : "", 'msgErreur' : ""}, 'numero': {'value' : "", 'msgErreur' : ""},
-                        'rue': {'value' : "", 'msgErreur' : ""}, 'ville': {'value' : "", 'msgErreur' : ""}, 'cp': {'value' : "", 'msgErreur' : ""}})
+                        'nom': {'value' : "", 'msgErreur' : ""}, 'telephone': {'value' : "", 'msgErreur' : ""}, 'complement': {'value' : "", 'msgErreur' : ""},
+                        'numEtRue': {'value' : "", 'msgErreur' : ""}, 'ville': {'value' : "", 'msgErreur' : ""}, 'cp': {'value' : "", 'msgErreur' : ""}})
                     setErreurMsg(null)
                 })
                 .catch((err) => {
@@ -145,8 +129,7 @@ function PageInscription(props) {
                                 <ChampInputPassword name="password" label="Mot de passe" value={donneesForm.password.value} invalide={donneesForm.password.msgErreur} onChange={handleChange}/>
                                 <ChampInputText name="prenom" label="Prénom" value={donneesForm.prenom.value} invalide={donneesForm.prenom.msgErreur} onChange={handleChange} />
                                 <ChampInputText name="nom" label="Nom" value={donneesForm.nom.value} invalide={donneesForm.nom.msgErreur} onChange={handleChange} />
-                                <ChampInputText name="numero" label="Numéro" value={donneesForm.numero.value} invalide={donneesForm.numero.msgErreur} onChange={handleChange} />
-                                <ChampInputText name="rue" label="Rue" value={donneesForm.rue.value} invalide={donneesForm.rue.msgErreur} onChange={handleChange} />
+                                <ChampInputText name="numEtRue" label="Numéro et rue" value={donneesForm.numEtRue.value} invalide={donneesForm.numEtRue.msgErreur} onChange={handleChange} />
                                 <ChampInputText name="cp" label="Code postal" value={donneesForm.cp.value} invalide={donneesForm.cp.msgErreur} onChange={handleChange} />
                                 <ChampInputText name="ville" label="Ville" value={donneesForm.ville.value} invalide={donneesForm.ville.msgErreur} onChange={handleChange} />
                                 <ChampInputText name="complement" label="Complement d'information pour l'adresse" value={donneesForm.complement.value} invalide={donneesForm.complement.msgErreur} onChange={handleChange} />
