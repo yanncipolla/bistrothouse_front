@@ -48,8 +48,8 @@ function App() {
                         <Route path="/panier" render={(props) => <PagePanier {...props} loginState={loginState} />} />
 
                         {/*Utilisateur*/}
-                        <Route path="/connexion" render={(props) => <PageConnexion {...props} handleLoginState={(etat) => handleLoginState(etat)} />} />
-                        <Route path="/inscription" component={PageInscription} />
+                        <Route path="/connexion" render={(props) => <PageConnexion {...props} handleLoginState={(etat) => handleLoginState(etat)} loginState={loginState}/>} />
+                        <Route path="/inscription" render={(props) => <PageInscription {...props} loginState={loginState} />} />
                         <Route path="/moncompte" render={(props) => <PageMonCompte {...props} loginState={loginState} />} />
                         <Route path="/modifierdonnees" render={(props) => <PageModiferDonnees {...props} loginState={loginState} />} />
 

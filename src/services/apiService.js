@@ -25,3 +25,7 @@ export function postUtilisateurs(data){
 export const getUtilisateur = () => {
     return Axios.get(API_DONNEES_UTILISATEUR, {headers: {'Authorization': 'Bearer ' + window.localStorage.token}})
 };
+
+export const putUtilisateur = (data) => {
+    return Axios.put(API_DONNEES_UTILISATEUR, data,{headers: {'Authorization': 'Bearer ' + window.localStorage.token}})
+};

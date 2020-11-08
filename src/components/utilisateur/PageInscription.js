@@ -8,9 +8,7 @@ import Alert from "../utils/Alert";
 import ChampInputText from "../utils/formulaire/champInputText";
 import {controleValiditeeChampForm} from "../../services/formulaireService";
 
-function PageInscription() {
-
-    // TODO empecher l acces à cette page si un uitilistaeur est connecté
+function PageInscription(props) {
 
     const [isLoaded, setIsLoaded] = useState(true);
     const [erreurMsg, setErreurMsg] = useState(null);
@@ -84,6 +82,9 @@ function PageInscription() {
             postUtilisateurs(data)
                 .then(() => {
                     setInfoMsg("Inscription réalisée avec succès. Vous pouvez maintenant vous connecter.")
+                    setDonneesForm({'email': {'value' : "", 'msgErreur' : ""}, 'password': {'value' : "", 'msgErreur' : ""}, 'prenom': {'value' : "", 'msgErreur' : ""},
+                        'nom': {'value' : "", 'msgErreur' : ""}, 'telephone': {'value' : "", 'msgErreur' : ""}, 'complement': {'value' : "", 'msgErreur' : ""}, 'numero': {'value' : "", 'msgErreur' : ""},
+                        'rue': {'value' : "", 'msgErreur' : ""}, 'ville': {'value' : "", 'msgErreur' : ""}, 'cp': {'value' : "", 'msgErreur' : ""}})
                     setErreurMsg(null)
                 })
                 .catch((err) => {
@@ -117,6 +118,13 @@ function PageInscription() {
         return (
             <>
                 <Spinner/>
+            </>
+        )
+    } else if (props.loginState) {
+        return (
+            <>
+                <SlidePrincipal image="utilisateur/slidepagemoncompte.jpg"/>
+                <Alert type="warning" message="Vous devez etre déconnecté pour accéder à cette page." />
             </>
         )
     } else {

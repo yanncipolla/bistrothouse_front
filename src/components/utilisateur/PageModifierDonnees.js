@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from "react";
 import {controleValiditeeChampForm} from "../../services/formulaireService";
-import {getUtilisateur, postLogin, postUtilisateurs} from "../../services/apiService";
+import {getUtilisateur, putUtilisateur, postLogin, postUtilisateurs} from "../../services/apiService";
 import Spinner from "../utils/Spinner";
 import SlidePrincipal from "../utils/SlidePrincipal";
 import Alert from "../utils/Alert";
@@ -8,9 +8,8 @@ import ChampInputEmail from "../utils/formulaire/champInputEmail";
 import ChampInputPassword from "../utils/formulaire/champInputPassword";
 import ChampInputText from "../utils/formulaire/champInputText";
 import BadgeTitre from "../utils/BadgeTitre";
-import Axios from "axios";
-import {API_DONNEES_UTILISATEUR} from "../../constantes";
 import {deconnexion} from "../../services/authentificationService";
+import {Link} from "react-router-dom";
 
 function PageModiferDonnees(props) {
 
@@ -36,28 +35,25 @@ function PageModiferDonnees(props) {
     });
 
     const regex = {
-        "email" : {'regexValue' : /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i, 'msg' : "Email invalide", 'requis' : true},
-        "password" : {'regexValue' : /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/i, 'msg' : "Password invalide", 'requis' : true},
-        "prenom" : {'regexValue' : /^[a-z ,.'-]+$/i, 'msg' : "Prenom invalide", 'requis' : true},
-        "nom" : {'regexValue' : /^[a-z ,.'-]+$/i, 'msg' : "Nom invalide", 'requis' : true},
-        "telephone" : {'regexValue' : /^(?:(?:\+|00)33[\s.-]{0,3}(?:\(0\)[\s.-]{0,3})?|0)[1-9](?:(?:[\s.-]?\d{2}){4}|\d{2}(?:[\s.-]?\d{3}){2})$/i, 'msg' : "Telephone invalide", 'requis' : true},
+        "email" : {'regexValue' : /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i, 'msg' : "Email invalide", 'requis' : false},
+        "password" : {'regexValue' : /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/i, 'msg' : "Password invalide", 'requis' : false},
+        "prenom" : {'regexValue' : /^[a-z ,.'-]+$/i, 'msg' : "Prenom invalide", 'requis' : false},
+        "nom" : {'regexValue' : /^[a-z ,.'-]+$/i, 'msg' : "Nom invalide", 'requis' : false},
+        "telephone" : {'regexValue' : /^(?:(?:\+|00)33[\s.-]{0,3}(?:\(0\)[\s.-]{0,3})?|0)[1-9](?:(?:[\s.-]?\d{2}){4}|\d{2}(?:[\s.-]?\d{3}){2})$/i, 'msg' : "Telephone invalide", 'requis' : false},
         "complement" : {'requis' : false},
-        "numero" : {'regexValue' : /^[1-9]\d{0,3}(?:[a-zA-Z]{1,2}\d{0,3})?$/i, 'msg' : "Numero invalide", 'requis' : true},
-        "rue" : {'regexValue' : /[A-Za-z0-9'.-\s,]/i, 'msg' : "Rue invalide", 'requis' : true},
-        "ville" : {'regexValue' : /^[a-zA-Z]+(?:[\s-][a-zA-Z]+)*$/i, 'msg' : "Ville invalide", 'requis' : true},
-        "cp" : {'regexValue' : /^(F-)?((2[A|B])|[0-9]{2})[0-9]{3}$/i, 'msg' : "Code postal invalide", 'requis' : true},
+        "numero" : {'regexValue' : /^[1-9]\d{0,3}(?:[a-zA-Z]{1,2}\d{0,3})?$/i, 'msg' : "Numero invalide", 'requis' : false},
+        "rue" : {'regexValue' : /[A-Za-z0-9'.-\s,]/i, 'msg' : "Rue invalide", 'requis' : false},
+        "ville" : {'regexValue' : /^[a-zA-Z]+(?:[\s-][a-zA-Z]+)*$/i, 'msg' : "Ville invalide", 'requis' : false},
+        "cp" : {'regexValue' : /^(F-)?((2[A|B])|[0-9]{2})[0-9]{3}$/i, 'msg' : "Code postal invalide", 'requis' : false},
     }
 
     useEffect(() => {
         setIsLoaded(false)
         getUtilisateur()
             .then((result) => {
-                console.log("result", result.data)
                 for (let champ in result.data){
                     if (champ == 'adresse'){
-                        console.log("jysuis")
                         for (let sousChamp in result.data[champ]){
-                            console.log("souschamp", sousChamp)
                             setDonneesForm((donneesForm)=>(
                                 {...donneesForm, [sousChamp] : { 'value' : result.data[champ][sousChamp], 'msgErreur' : ""}}
                             ))
@@ -67,9 +63,15 @@ function PageModiferDonnees(props) {
                         {...donneesForm, [champ] : { 'value' : result.data[champ], 'msgErreur' : ""}}
                     ))
                 }
+                // TODO TOTO : pourquoi ce putain de console log fonctionne pas
+                console.log("donnesForm dans le .then" ,donneesForm)
             })
             .catch((err)=>{
-                if (err.response.status == '401' && (err.response.data.message === 'JWT Token not found' || err.response.data.message === 'Invalid JWT Token')) {
+                if (
+                    typeof err.response !=="undefined"
+                    && err.response.status == '401'
+                    && (err.response.data.message === 'JWT Token not found' || err.response.data.message === 'Invalid JWT Token') || err.response.data.message === 'Expired JWT Token')
+                {
                     setErreurMsg("Session expirée, veuillez vous reconnecter")
                     setTypeErreurMsg("warning")
                     deconnexion()
@@ -81,7 +83,7 @@ function PageModiferDonnees(props) {
                 }
             })
             .finally(()=>{
-                console.log("alafin",donneesForm)
+                console.log("donnesForm dans le .finaly",donneesForm)
                 setIsLoaded(true)
             })
 
@@ -96,9 +98,10 @@ function PageModiferDonnees(props) {
         )
     }
 
-    function controleRegex(){
+    function controlerFormulaire(){
         setFormValide(true)
         for (const champ in donneesForm){
+            // console.log("champ--->", champ)
             let champControle = controleValiditeeChampForm(donneesForm[champ], regex[champ])
             setDonneesForm((donnesForm)=>(
                 {...donnesForm, [champ] : champControle[0]}
@@ -108,7 +111,10 @@ function PageModiferDonnees(props) {
     }
 
     function onSubmit(e) {
-        controleRegex()
+        // debugger
+        console.log(donneesForm)
+        controlerFormulaire()
+        debugger
         if (formValide){
             setIsLoaded(false)
             let data = {
@@ -125,14 +131,27 @@ function PageModiferDonnees(props) {
                     'cp': donneesForm.cp.value
                 }
             }
-            postUtilisateurs(data)
+            putUtilisateur(data)
                 .then(() => {
-                    setInfoMsg("Inscription réalisée avec succès. Vous pouvez maintenant vous connecter.")
+                    setInfoMsg("Vos données ont bien été modifées")
+                    setDonneesForm((donneesForm)=>(
+                        {...donneesForm, 'password' : { 'value' : "", 'msgErreur' : ""}}
+                    ))
                     setErreurMsg(null)
                 })
                 .catch((err) => {
-                    if (typeof err.response !=="undefined" && err.response.data.hasOwnProperty('message')) {
-                        if (err.response.data.message === "Inscription impossible : L'adresse email existe déjà.") {
+                    if (
+                        typeof err.response !=="undefined"
+                        && err.response.status == '401'
+                        && (err.response.data.message === 'JWT Token not found' || err.response.data.message === 'Invalid JWT Token') || err.response.data.message === 'Expired JWT Token')
+                    {
+                        setErreurMsg("Session expirée, veuillez vous reconnecter")
+                        setTypeErreurMsg("warning")
+                        deconnexion()
+                        //TODO TOTO
+                        //TODO apres la deconnexion il faudrait rafraichir le bouton se connecter de la navbar
+                    } else if (typeof err.response !=="undefined" && err.response.data.hasOwnProperty('message')) {
+                        if (err.response.data.message === "Modification impossible : L'adresse email existe déjà.") {
                             setErreurMsg(err.response.data.message)
                             setTypeErreurMsg("warning")
                         }
@@ -187,7 +206,9 @@ function PageModiferDonnees(props) {
                         <div className="row mt-4">
 
                             <div className="col-md mt-5">
+                                {/*TODO tester la modification d'email et gérer la déconnexion apres le changement afin de renouveler le token*/}
                                 <ChampInputEmail name="email" label="Email" value={donneesForm.email.value} invalide={donneesForm.email.msgErreur} onChange={handleChange}/>
+                                {/*TODO Ajouter un premier champ pour checker le password actuel et deux champs nouveaux passwords */}
                                 <ChampInputPassword name="password" label="Mot de passe" value={donneesForm.password.value} invalide={donneesForm.password.msgErreur} onChange={handleChange}/>
                                 <ChampInputText name="prenom" label="Prénom" value={donneesForm.prenom.value} invalide={donneesForm.prenom.msgErreur} onChange={handleChange} />
                                 <ChampInputText name="nom" label="Nom" value={donneesForm.nom.value} invalide={donneesForm.nom.msgErreur} onChange={handleChange} />
@@ -198,7 +219,18 @@ function PageModiferDonnees(props) {
                                 <ChampInputText name="complement" label="Complement d'information pour l'adresse" value={donneesForm.complement.value} invalide={donneesForm.complement.msgErreur} onChange={handleChange} />
                                 <ChampInputText name="telephone" label="Numéro de tépléphone" value={donneesForm.telephone.value} invalide={donneesForm.telephone.msgErreur} onChange={handleChange} />
                                 {/*todo pb faut cliquer deux fois sur valider pour valider !*/}
-                                <button type="submit" className="btn btn-warning">Modifier mes données</button>
+                                <div className="row my-2">
+                                    <div className="col text-center">
+                                        <button type="submit" className="btn btn-warning">Modifier mes données</button>
+                                    </div>
+                                </div>
+                                <div className="row my-2">
+                                    <div className="col text-center">
+                                        <button type="submit" className="btn btn-warning">
+                                            <Link className="text-dark" to="/moncompte">Retour</Link>
+                                        </button>
+                                    </div>
+                                </div>
                             </div>
 
                             <div className="col-md d-flex mt-4">

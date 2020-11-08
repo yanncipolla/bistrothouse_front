@@ -88,6 +88,13 @@ function PageConnexion(props) {
                 <Spinner/>
             </>
         )
+    } else if (props.loginState) {
+        return (
+            <>
+                <SlidePrincipal image="utilisateur/slidepagemoncompte.jpg"/>
+                <Alert type="warning" message="Vous devez etre déconnecté pour accéder à cette page." />
+            </>
+        )
     } else {
         return (
             <>
