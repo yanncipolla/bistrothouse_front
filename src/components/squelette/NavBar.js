@@ -136,8 +136,8 @@ function NavBar(props) {
                             <div className="row">
                                 <div className="col d-flex align-items-center">
                                     {props.loginState &&
-                                    <li className={'text-center nav-item ' + isActive('/utilisateur')}>
-                                        <Link className='nav-link' to="/utilisateur">Mon compte</Link>
+                                    <li className={'text-center nav-item ' + isActive('/moncompte')}>
+                                        <Link className='nav-link' to="/moncompte">Mon compte</Link>
                                     </li>}
                                 </div>
                             </div>

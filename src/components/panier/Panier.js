@@ -6,20 +6,28 @@ function Panier(props) {
 
     return(
         <>
-            {props.panier.map((panierLigne, index) => (
+            <div className="row">
+                <div className="col">
+                    {props.panier.map((panierLigne, index) => (
 
-                <LignePanier key={index}
-                             ligne={panierLigne.ligne}
-                             id={panierLigne.id}
-                             nom={panierLigne.nom}
-                             prix={panierLigne.prix}
-                             photo={panierLigne.photo}
-                             qte={panierLigne.qte}
-                             rechargerPanier={props.rechargerPanier}
-                />
-                )
-            )}
-            <TotalPanier totalPanier={props.totalPanier} />
+                            <LignePanier key={index}
+                                         ligne={panierLigne.ligne}
+                                         id={panierLigne.id}
+                                         nom={panierLigne.nom}
+                                         prix={panierLigne.prix}
+                                         photo={panierLigne.photo}
+                                         qte={panierLigne.qte}
+                                         rechargerPanier={props.rechargerPanier}
+                            />
+                        )
+                    )}
+                </div>
+            </div>
+            <div className="row mt-5">
+                <div className="col">
+                    <TotalPanier totalPanier={props.totalPanier} />
+                </div>
+            </div>
         </>
     )
 }

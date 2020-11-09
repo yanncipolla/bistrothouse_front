@@ -15,7 +15,6 @@ function PageConnexion(props) {
     const [isLoaded, setIsLoaded] = useState(true);
     const [erreurMsg, setErreurMsg] = useState(null);
     const [typeErreurMsg, setTypeErreurMsg] = useState(null);
-    const [formValide, setFormValide] = useState(false)
     const [donneesForm, setDonneesForm] = useState({
         'email': {'value' : "", 'msgErreur' : ""},
         'password': {'value' : "", 'msgErreur' : ""},
@@ -36,19 +35,19 @@ function PageConnexion(props) {
     }
 
     function controleRegex(){
-        setFormValide(true)
+        let formValide = true
         for (const champ in donneesForm){
             let champControle = controleValiditeeChampForm(donneesForm[champ], regex[champ])
             setDonneesForm((donnesForm)=>(
                 {...donnesForm, [champ] : champControle[0]}
             ))
-            if (!champControle[1]){setFormValide(false)}
+            if (!champControle[1]){formValide = false}
         }
+        return formValide
     }
 
     function onSubmit(e) {
-        controleRegex()
-        if (formValide){
+        if (controleRegex()){
             setIsLoaded(false)
             postLogin(donneesForm.email.value, donneesForm.password.value)
                 .then(() => {
@@ -60,6 +59,9 @@ function PageConnexion(props) {
                         if (err.response.data.message === 'Invalid credentials.') {
                             setErreurMsg("Email ou mot de passe incorrect")
                             setTypeErreurMsg("warning")
+                        } else {
+                            setErreurMsg(err.response.status + " : " + err.response.data.message)
+                            setTypeErreurMsg("danger")
                         }
                     } else if (typeof err.response !=="undefined" && err.response.data.hasOwnProperty('detail')) {
                         setErreurMsg(err.response.status + " : " + err.response.data.detail)
@@ -71,7 +73,6 @@ function PageConnexion(props) {
                 })
                 .finally(() => {
                     setIsLoaded(true)
-                    setFormValide(false)
                 })
         } else {
             e.preventDefault();
@@ -86,6 +87,13 @@ function PageConnexion(props) {
         return (
             <>
                 <Spinner/>
+            </>
+        )
+    } else if (props.loginState) {
+        return (
+            <>
+                <SlidePrincipal image="utilisateur/slidepagemoncompte.jpg"/>
+                <Alert type="warning" message="Vous devez etre déconnecté pour accéder à cette page." />
             </>
         )
     } else {

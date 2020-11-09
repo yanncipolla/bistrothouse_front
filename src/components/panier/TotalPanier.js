@@ -1,13 +1,12 @@
 import React from "react";
+import './totalPanier.css';
 
 function TotalPanier(props) {
 
     return (
-        <>
-            <button type="button" className="btn btn-secondary btn-lg btn-block mt-5">
-                Total : {props.totalPanier} €
-            </button>
-        </>
+        <div className="totalPanier">
+            Total : {props.totalPanier} €
+        </div>
     )
 
 }
