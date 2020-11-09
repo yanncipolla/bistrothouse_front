@@ -13,14 +13,10 @@ import {Link} from "react-router-dom";
 
 function PageModiferDonnees(props) {
 
-
-    // TODO empecher l acces à cette page si un uitilistaeur est connecté
-
     const [isLoaded, setIsLoaded] = useState(true);
     const [erreurMsg, setErreurMsg] = useState(null);
     const [infoMsg, setInfoMsg] = useState(null);
     const [typeErreurMsg, setTypeErreurMsg] = useState(null);
-    const [formValide, setFormValide] = useState(false)
     const [donneesForm, setDonneesForm] = useState({
         'email': {'value' : "", 'msgErreur' : ""},
         'password': {'value' : "", 'msgErreur' : ""},
@@ -54,8 +50,6 @@ function PageModiferDonnees(props) {
                         {...donneesForm, [champ] : { 'value' : result.data[champ], 'msgErreur' : ""}}
                     ))
                 }
-                // TODO TOTO : pourquoi ce putain de console log fonctionne pas
-                // console.log("donnesForm dans le .then" ,donneesForm)
             })
             .catch((err)=>{
                 if (
@@ -67,8 +61,7 @@ function PageModiferDonnees(props) {
                     setTypeErreurMsg("warning")
                     setInfoMsg(null)
                     deconnexion()
-                    //TODO TOTO
-                    //TODO apres la deconnexion il faudrait rafraichir le bouton se connecter de la navbar
+                    props.handleLoginState(false)
                 } else {
                     setErreurMsg(err.message)
                     setTypeErreurMsg("danger")
@@ -91,19 +84,20 @@ function PageModiferDonnees(props) {
     }
 
     function controlerFormulaire(){
-        setFormValide(true)
+        //TODO Peut sans doute etre factorisé en service
+        let formValide = true
         for (const champ in donneesForm){
             let champControle = controleValiditeeChampForm(donneesForm[champ], regex[champ])
             setDonneesForm((donnesForm)=>(
                 {...donnesForm, [champ] : champControle[0]}
             ))
-            if (!champControle[1]){setFormValide(false)}
+            if (!champControle[1]){formValide = false}
         }
+        return formValide
     }
 
     function onSubmit(e) {
-        controlerFormulaire()
-        if (formValide){
+        if (controlerFormulaire()){
             setIsLoaded(false)
             putUtilisateur(donneesForm)
                 .then(() => {
@@ -115,6 +109,7 @@ function PageModiferDonnees(props) {
                 })
                 .catch((err) => {
                     if (
+                        //TODO factoriser el controle de validité du token
                         typeof err.response !== "undefined"
                         && err.response.status === '401'
                         && (err.response.data.message === 'JWT Token not found' || err.response.data.message === 'Invalid JWT Token') || err.response.data.message === 'Expired JWT Token')
@@ -123,11 +118,14 @@ function PageModiferDonnees(props) {
                         setTypeErreurMsg("warning")
                         setInfoMsg(null)
                         deconnexion()
-                        //TODO TOTO
-                        //TODO apres la deconnexion il faudrait rafraichir le bouton se connecter de la navbar
+                        props.handleLoginState(false)
                     } else if (typeof err.response !=="undefined" && err.response.data.hasOwnProperty('message')) {
                         if (err.response.data.message === "Modification impossible : L'adresse email existe déjà.") {
                             setErreurMsg(err.response.data.message)
+                            setTypeErreurMsg("warning")
+                            setInfoMsg(null)
+                        } else {
+                            setErreurMsg(err.response.status + " : " + err.response.data.message)
                             setTypeErreurMsg("warning")
                             setInfoMsg(null)
                         }
@@ -143,7 +141,6 @@ function PageModiferDonnees(props) {
                 })
                 .finally(() => {
                     setIsLoaded(true)
-                    setFormValide(false)
                 })
         } else {
             e.preventDefault();
@@ -195,7 +192,6 @@ function PageModiferDonnees(props) {
                                 <ChampInputText name="ville" label="Ville" value={donneesForm.ville.value} invalide={donneesForm.ville.msgErreur} onChange={handleChange} />
                                 <ChampInputText name="complement" label="Complement d'information pour l'adresse" value={donneesForm.complement.value} invalide={donneesForm.complement.msgErreur} onChange={handleChange} />
                                 <ChampInputText name="telephone" label="Numéro de tépléphone" value={donneesForm.telephone.value} invalide={donneesForm.telephone.msgErreur} onChange={handleChange} />
-                                {/*todo pb faut cliquer deux fois sur valider pour valider !*/}
                                 <div className="row my-2">
                                     <div className="col text-center">
                                         <button type="submit" className="btn btn-warning">Modifier mes données</button>

@@ -51,7 +51,7 @@ function App() {
                         <Route path="/connexion" render={(props) => <PageConnexion {...props} handleLoginState={(etat) => handleLoginState(etat)} loginState={loginState}/>} />
                         <Route path="/inscription" render={(props) => <PageInscription {...props} loginState={loginState} />} />
                         <Route path="/moncompte" render={(props) => <PageMonCompte {...props} loginState={loginState} />} />
-                        <Route path="/modifierdonnees" render={(props) => <PageModiferDonnees {...props} loginState={loginState} />} />
+                        <Route path="/modifierdonnees" render={(props) => <PageModiferDonnees {...props} handleLoginState={(etat) => handleLoginState(etat)} loginState={loginState} />} />
 
                         <Route path="/test" component={Modele}/>
 
