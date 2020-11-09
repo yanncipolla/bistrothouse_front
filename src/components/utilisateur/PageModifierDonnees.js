@@ -84,7 +84,6 @@ function PageModiferDonnees(props) {
     }
 
     function controlerFormulaire(){
-        //TODO Peut sans doute etre factorisé en service
         let formValide = true
         for (const champ in donneesForm){
             let champControle = controleValiditeeChampForm(donneesForm[champ], regex[champ])

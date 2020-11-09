@@ -14,7 +14,6 @@ function PageInscription(props) {
     const [erreurMsg, setErreurMsg] = useState(null);
     const [infoMsg, setInfoMsg] = useState(null);
     const [typeErreurMsg, setTypeErreurMsg] = useState(null);
-    const [formValide, setFormValide] = useState(false)
     const [donneesForm, setDonneesForm] = useState({
         'email': {'value' : "", 'msgErreur' : ""},
         'password': {'value' : "", 'msgErreur' : ""},
@@ -49,19 +48,19 @@ function PageInscription(props) {
     }
 
     function controleRegex(){
-        setFormValide(true)
+        let formValide = true
         for (const champ in donneesForm){
             let champControle = controleValiditeeChampForm(donneesForm[champ], regex[champ])
             setDonneesForm((donnesForm)=>(
                 {...donnesForm, [champ] : champControle[0]}
             ))
-            if (!champControle[1]){setFormValide(false)}
+            if (!champControle[1]){formValide = false}
         }
+        return formValide
     }
 
     function onSubmit(e) {
-        controleRegex()
-        if (formValide){
+        if (controleRegex()){
             setIsLoaded(false)
             postUtilisateurs(donneesForm)
                 .then(() => {
@@ -77,6 +76,10 @@ function PageInscription(props) {
                             setErreurMsg(err.response.data.message)
                             setTypeErreurMsg("warning")
                             setInfoMsg(null)
+                        } else {
+                            setErreurMsg(err.response.status + " : " + err.response.data.message)
+                            setTypeErreurMsg("warning")
+                            setInfoMsg(null)
                         }
                     } else if (typeof err.response !=="undefined" && err.response.data.hasOwnProperty('detail')) {
                         setErreurMsg(err.response.status + " : " + err.response.data.detail)
@@ -90,7 +93,6 @@ function PageInscription(props) {
                 })
                 .finally(() => {
                     setIsLoaded(true)
-                    setFormValide(false)
                 })
         } else {
             e.preventDefault();
