@@ -71,13 +71,19 @@ function PageInscription(props) {
                     setErreurMsg(null)
                 })
                 .catch((err) => {
-                    if (typeof err.response !=="undefined" && err.response.data.hasOwnProperty('message')) {
-                        if (err.response.data.message === "Inscription impossible : L'adresse email existe déjà.") {
-                            setErreurMsg(err.response.data.message)
-                            setTypeErreurMsg("warning")
-                            setInfoMsg(null)
-                        } else {
-                            setErreurMsg(err.response.status + " : " + err.response.data.message)
+                    //TODO Changer ce controle d erreur car API platform le fait plus de la meme facon depuis que j ai utilisé la contrainte de validation
+                    if (typeof err.response !== "undefined" && err.response.data.hasOwnProperty('violations')) {
+                        let errEmailExistant = false
+                        for (let i=0; i < err.response.data.violations.length; i++){
+                            if (err.response.data.violations[i].message === "Inscription impossible : L'adresse email existe déjà.") {
+                                setErreurMsg(err.response.data.violations[i].message)
+                                setTypeErreurMsg("warning")
+                                setInfoMsg(null)
+                                errEmailExistant = true
+                            }
+                        }
+                        if (!errEmailExistant) {
+                            setErreurMsg(err.response.status + " : ConstraintViolationList")
                             setTypeErreurMsg("warning")
                             setInfoMsg(null)
                         }
