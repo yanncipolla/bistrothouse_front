@@ -1,11 +1,11 @@
 import React, {useState} from "react";
 import {postUtilisateurs} from "../../services/apiService";
 import Spinner from "../utils/Spinner";
-import ChampInputEmail from "../utils/formulaire/champInputEmail";
-import ChampInputPassword from "../utils/formulaire/champInputPassword";
+import ChampInputEmail from "../utils/formulaire/ChampInputEmail";
+import ChampInputPassword from "../utils/formulaire/ChampInputPassword";
 import SlidePrincipal from "../utils/SlidePrincipal";
 import Alert from "../utils/Alert";
-import ChampInputText from "../utils/formulaire/champInputText";
+import ChampInputText from "../utils/formulaire/ChampInputText";
 import {controleValiditeeChampForm} from "../../services/formulaireService";
 
 function PageInscription(props) {

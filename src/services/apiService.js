@@ -1,6 +1,7 @@
 import Axios from "axios";
-import {API_CATEGORIE_PRODUIT, API_DONNEES_UTILISATEUR, API_INSCRIPTION, API_LOGIN} from "../constantes";
+import {API_CATEGORIE_PRODUIT, API_COMMANDE, API_DONNEES_UTILISATEUR, API_INSCRIPTION, API_LOGIN} from "../constantes";
 import jwt_decode from "jwt-decode";
+import {transformePanierEnCommande} from "./panierService";
 
 export function getCategorieProduit (nomCategorie) {
     return Axios.get(API_CATEGORIE_PRODUIT, {headers : {'Accept' : 'application/json'}, params : {'nom' : nomCategorie}})
@@ -51,3 +52,8 @@ export const putUtilisateur = (donneesForm) => {
     }
     return Axios.put(API_DONNEES_UTILISATEUR, data,{headers: {'Authorization': 'Bearer ' + window.localStorage.token}})
 };
+
+export function postCommande(commande){
+    console.log(commande)
+    return Axios.post(API_COMMANDE, commande, {headers: {'Authorization': 'Bearer ' + window.localStorage.token}})
+}

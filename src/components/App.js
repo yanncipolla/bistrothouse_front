@@ -8,11 +8,11 @@ import PageProduit from "./produits/PageProduit";
 import PageConnexion from "./utilisateur/PageConnexion";
 import {checkTokenValidity} from "../services/authentificationService";
 import PageIntrouvable from "./PageIntrouvable";
-import Modele from "./Modele";
 import PagePanier from "./panier/PagePanier";
 import PageInscription from "./utilisateur/PageInscription";
 import PageMonCompte from "./utilisateur/PageMonCompte";
 import PageModiferDonnees from "./utilisateur/PageModifierDonnees";
+import PageValidationCommande from "./commande/PageValidationCommande";
 
 function App() {
 
@@ -46,14 +46,13 @@ function App() {
 
                         {/*Panier et commande*/}
                         <Route path="/panier" render={(props) => <PagePanier {...props} loginState={loginState} />} />
+                        <Route path="/validationPanier" render={(props) => <PageValidationCommande {...props} loginState={loginState} handleLoginState={(etat) => handleLoginState(etat)} />} />
 
                         {/*Utilisateur*/}
                         <Route path="/connexion" render={(props) => <PageConnexion {...props} handleLoginState={(etat) => handleLoginState(etat)} loginState={loginState}/>} />
                         <Route path="/inscription" render={(props) => <PageInscription {...props} loginState={loginState} />} />
                         <Route path="/moncompte" render={(props) => <PageMonCompte {...props} loginState={loginState} />} />
                         <Route path="/modifierdonnees" render={(props) => <PageModiferDonnees {...props} handleLoginState={(etat) => handleLoginState(etat)} loginState={loginState} />} />
-
-                        <Route path="/test" component={Modele}/>
 
                         {/*404*/}
                         <Route component={PageIntrouvable} />
