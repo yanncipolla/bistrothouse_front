@@ -2,7 +2,7 @@ import React, {useState} from "react";
 import SlidePrincipal from "../utils/SlidePrincipal";
 import Alert from "../utils/Alert";
 import BadgeTitre from "../utils/BadgeTitre";
-import {Link} from "react-router-dom";
+import {Link, useHistory} from "react-router-dom";
 import Spinner from "../utils/Spinner";
 import {postCommande} from "../../services/apiService";
 import ChampInputText from "../utils/formulaire/ChampInputText";
@@ -17,6 +17,8 @@ function PageValidationCommande(props) {
     const [isLoaded, setIsLoaded] = useState(true);
     const [erreurMsg, setErreurMsg] = useState(null);
     const [typeErreurMsg, setTypeErreurMsg] = useState(null);
+
+    const history = useHistory();
 
     function handleChange(e) {
         const name = e.target.name
@@ -38,6 +40,7 @@ function PageValidationCommande(props) {
         postCommande(commande)
             .then(()=>{
                 supprimerPanier()
+                history.push("/commandevalidee")
             })
             .catch((err)=>{
                 if (
@@ -70,7 +73,9 @@ function PageValidationCommande(props) {
                 <Alert type="warning" message="Vous devez etre connecté pour accéder à cette page." />
             </>
         )
-    } else if (!isLoaded) {
+    } else if (window.localStorage.getItem('panier') === null || window.localStorage.getItem('panier') === "{}"){
+        history.push("/panier")
+    } else  if (!isLoaded) {
         return (
             <>
                 <Spinner/>

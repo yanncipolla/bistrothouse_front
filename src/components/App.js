@@ -13,6 +13,7 @@ import PageInscription from "./utilisateur/PageInscription";
 import PageMonCompte from "./utilisateur/PageMonCompte";
 import PageModiferDonnees from "./utilisateur/PageModifierDonnees";
 import PageValidationCommande from "./commande/PageValidationCommande";
+import PageCommandeValidee from "./commande/PageCommandeValidee";
 
 function App() {
 
@@ -46,7 +47,8 @@ function App() {
 
                         {/*Panier et commande*/}
                         <Route path="/panier" render={(props) => <PagePanier {...props} loginState={loginState} />} />
-                        <Route path="/validationPanier" render={(props) => <PageValidationCommande {...props} loginState={loginState} handleLoginState={(etat) => handleLoginState(etat)} />} />
+                        <Route path="/validationpanier" render={(props) => <PageValidationCommande {...props} loginState={loginState} handleLoginState={(etat) => handleLoginState(etat)} />} />
+                        <Route path="/commandevalidee" component={PageCommandeValidee} />
 
                         {/*Utilisateur*/}
                         <Route path="/connexion" render={(props) => <PageConnexion {...props} handleLoginState={(etat) => handleLoginState(etat)} loginState={loginState}/>} />
