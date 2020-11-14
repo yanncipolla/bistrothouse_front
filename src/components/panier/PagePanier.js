@@ -62,7 +62,7 @@ function PagePanier(props) {
                                 if (!props.loginState) {
                                     setErreurMsg("Veuillez vous connecter avant de valider la commande")
                                 } else {
-                                    history.push("/validationPanier")
+                                    history.push("/validationpanier")
                                 }
                             }}>
                                 Valider commande

@@ -53,3 +53,17 @@ export function supprimerProduitDuPanier(ligne){
 export function supprimerPanier(){
     window.localStorage.setItem('panier', "{}")
 }
+
+export function transformePanierEnCommande(livraison, commentaire){
+    let panier = JSON.parse(window.localStorage.getItem('panier'));
+    let ligneCommande = []
+    for (let i=0; i < panier.liste.length; i++){
+        ligneCommande.push([panier.liste[i].id, panier.liste[i].qte])
+    }
+    let commande = {
+        "emporter" : livraison === "emporter" ? true : false,
+        "commentaire" : commentaire,
+        "ligneCommande" : ligneCommande
+    }
+    return commande
+}

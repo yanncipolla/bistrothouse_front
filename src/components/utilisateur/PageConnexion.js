@@ -2,8 +2,8 @@ import React, {useState} from "react";
 import {useHistory} from "react-router-dom"
 import {postLogin} from "../../services/apiService";
 import Spinner from "../utils/Spinner";
-import ChampInputEmail from "../utils/formulaire/champInputEmail";
-import ChampInputPassword from "../utils/formulaire/champInputPassword";
+import ChampInputEmail from "../utils/formulaire/ChampInputEmail";
+import ChampInputPassword from "../utils/formulaire/ChampInputPassword";
 import SlidePrincipal from "../utils/SlidePrincipal";
 import Alert from "../utils/Alert";
 import {controleValiditeeChampForm} from "../../services/formulaireService";

@@ -8,7 +8,7 @@ export const API_LOGIN = API_NON_AUTHENTIFIEE + "/login_check"
 export const API_INSCRIPTION = API_NON_AUTHENTIFIEE + "/utilisateurs"
 
 export const API_DONNEES_UTILISATEUR = API_AUTHENTIFIEE + "/utilisateur"
-
+export const API_COMMANDE = API_AUTHENTIFIEE + "/commande"
 
 export const TOKEN_TTL = 3600;
 
